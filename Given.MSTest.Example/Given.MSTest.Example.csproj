@@ -53,7 +53,7 @@
       <Name>Given.Example</Name>
     </ProjectReference>
     <ProjectReference Include="..\Given.MSTest\Given.MSTest.csproj">
-      <Project>{6EBC4A4A-C958-453A-8CC4-45227055E5BF}</Project>
+      <Project>{6ebc4a4a-c958-453a-8cc4-45227055e5bf}</Project>
       <Name>Given.MSTest</Name>
     </ProjectReference>
   </ItemGroup>

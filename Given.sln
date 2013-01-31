@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Given.Common", "given.Common\Given.Common.csproj", "{81530FE0-14E7-40E5-805D-8BEABB50E899}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Given.Common", "Given.Common\Given.Common.csproj", "{81530FE0-14E7-40E5-805D-8BEABB50E899}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Given.NUnit", "..\given.NUnit\Given.NUnit.csproj", "{7B16BD10-5BEF-4DB5-A0E7-C951378838D7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Given.NUnit", "Given.NUnit\Given.NUnit.csproj", "{7B16BD10-5BEF-4DB5-A0E7-C951378838D7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Given.MSTest", "Given.MSTest\Given.MSTest.csproj", "{6EBC4A4A-C958-453A-8CC4-45227055E5BF}"
 EndProject

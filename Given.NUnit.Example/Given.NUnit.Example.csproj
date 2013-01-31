@@ -46,7 +46,7 @@
     <Compile Include="when_building_a_toyota.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\given.NUnit\Given.NUnit.csproj">
+    <ProjectReference Include="..\Given.NUnit\Given.NUnit.csproj">
       <Project>{7B16BD10-5BEF-4DB5-A0E7-C951378838D7}</Project>
       <Name>Given.NUnit</Name>
     </ProjectReference>
