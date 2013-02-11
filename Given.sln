@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Given.NUnit.Example", "Give
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Given.Example", "Given.Example\Given.Example.csproj", "{BE00615B-AD00-42D2-AE8B-89A303FA7B31}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Given.NUnit.Example2", "Given.NUnit.Example2\Given.NUnit.Example2.csproj", "{D3FBBA08-D416-4C52-A3D4-4A24043EAABF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{BE00615B-AD00-42D2-AE8B-89A303FA7B31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE00615B-AD00-42D2-AE8B-89A303FA7B31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE00615B-AD00-42D2-AE8B-89A303FA7B31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3FBBA08-D416-4C52-A3D4-4A24043EAABF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3FBBA08-D416-4C52-A3D4-4A24043EAABF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3FBBA08-D416-4C52-A3D4-4A24043EAABF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3FBBA08-D416-4C52-A3D4-4A24043EAABF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

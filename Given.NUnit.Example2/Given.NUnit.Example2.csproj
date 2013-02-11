@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{81530FE0-14E7-40E5-805D-8BEABB50E899}</ProjectGuid>
+    <ProjectGuid>{D3FBBA08-D416-4C52-A3D4-4A24043EAABF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Given.Common</RootNamespace>
-    <AssemblyName>Given.Common</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <RootNamespace>Given.NUnit.Example2</RootNamespace>
+    <AssemblyName>Given.NUnit.Example2</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,37 +30,30 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Catch.cs" />
-    <Compile Include="ITestResultProcessor.cs" />
-    <Compile Include="Text.cs" />
-    <Compile Include="HtmlTestProcessor.cs" />
-    <Compile Include="ITestStateManager.cs" />
-    <Compile Include="PairList.cs" />
-    <Compile Include="ShouldExtensions.cs" />
-    <Compile Include="StatedThen.cs" />
-    <Compile Include="TestInitializer.cs" />
-    <Compile Include="Delegates.cs" />
-    <Compile Include="DidNotThrowAnExceptionException.cs" />
-    <Compile Include="ISpecification.cs" />
-    <Compile Include="IThen.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestResult.cs" />
-    <Compile Include="TestRun.cs" />
-    <Compile Include="TestRunManager.cs" />
-    <Compile Include="TestState.cs" />
-    <Compile Include="TestStateManager.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="HtmlReport\htmlreport.html" />
+    <ProjectReference Include="..\Given.Common\Given.Common.csproj">
+      <Project>{81530FE0-14E7-40E5-805D-8BEABB50E899}</Project>
+      <Name>Given.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Given.NUnit\Given.NUnit.csproj">
+      <Project>{7B16BD10-5BEF-4DB5-A0E7-C951378838D7}</Project>
+      <Name>Given.NUnit</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
