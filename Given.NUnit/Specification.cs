@@ -1,8 +1,7 @@
-﻿using System;
-using System.Linq;
-using Given.Common;
+﻿using Given.Common;
 using NUnit.Framework;
 using TestState = Given.Common.TestState;
+using Core = NUnit.Core;
 
 namespace Given.NUnit
 {
@@ -20,7 +19,6 @@ namespace Given.NUnit
             initializer.ProcessGiven(_testStateManager);
             initializer.ProcessWhen(_testStateManager);
             initializer.ProcessThen(_testStateManager);
-
             _testStateManager.WriteSpecification();
         }
 
@@ -45,8 +43,9 @@ namespace Given.NUnit
                     state = TestState.Unknown;
                     break;
             }
+            
+            _testStateManager.SetThenState(context.Test.Name, state, Core.TestExecutionContext.CurrentContext.CurrentResult.Message);
 
-            _testStateManager.SetThenState(context.Test.Name, state);
         }
     }
 }

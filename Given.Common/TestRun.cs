@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -13,16 +14,16 @@ namespace Given.Common
             _tests = new List<TestStateManager>();
         }
 
-        public void AddTest(TestStateManager testStateManager)
+        public void AddTest(TestStateManager testStateManager, Type type)
         {
             _tests.Add(testStateManager);
         }
 
-        public IEnumerable<TestResult> GetTestRunResults()
+        public List<TestResult> GetTestRunResults()
         {
             //this is for MSTest.  Each 'then' in MSTest gets its own TestStateManager, here we combine all of them back together
             var consolidatedTests = _tests
-                .GroupBy(x => x.Test.FullName, (key, tests) =>
+                .GroupBy(x => x.TestType, (key, tests) =>
                                                    {
                                                        var aggregatedThens = new PairList<MethodInfo, StatedThen>();
                                                        var testStateManagers = tests.ToList();
@@ -39,7 +40,7 @@ namespace Given.Common
                                                        return first;
                                                    });
 
-            return consolidatedTests.Select(x => new TestResult(x.Givens.Select(y => y.Value), x.Whens.Select(y => y.Value), x.Thens.Select(y => y.Value)));
+            return consolidatedTests.Select(x => new TestResult(x.Givens.Select(y => y.Value), x.Whens.Select(y => y.Value), x.Thens.Select(y => y.Value),x.TestType)).ToList();
         }
     }
 }

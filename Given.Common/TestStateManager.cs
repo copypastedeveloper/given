@@ -7,15 +7,15 @@ namespace Given.Common
     public class TestStateManager : ITestStateManager
     {
 
-        public Type Test { get; set; }
+        public Type TestType { get; set; }
         public PairList<Delegate, string> Givens { get; private set; }
         public PairList<Delegate, string> Whens { get; private set; }
         public PairList<MethodInfo, StatedThen> Thens { get; private set; }
         
         public TestStateManager(object specification)
         {
-            TestRunManager.CurrentTestRun.AddTest(this);
-            Test = specification.GetType();
+            TestRunManager.CurrentTestRun.AddTest(this, specification.GetType());
+            TestType = specification.GetType();
             Givens = new PairList<Delegate, string>();
             Whens = new PairList<Delegate, string>();
             Thens = new PairList<MethodInfo, StatedThen>();
@@ -36,9 +36,11 @@ namespace Given.Common
             Thens.Add(method, new StatedThen { Name = text });
         }
 
-        public void SetThenState(string methodName, TestState state)
+        public void SetThenState(string methodName, TestState state, string message)
         {
-            Thens.First(x => x.Key.Name == methodName).Value.State = state;
+            var then = Thens.First(x => x.Key.Name == methodName).Value;
+            then.State = state;
+            then.Message = message;
         }
 
         public void WriteSpecification(Action<string,object[]> consoleAction = null)
@@ -60,6 +62,7 @@ namespace Given.Common
             foreach (var pair in Thens)
             {
                 consoleAction(Text.Print, new object[] {currentPrefix, pair.Value.Name.Replace("_", " ")});
+                consoleAction(pair.Value.Message ?? string.Empty, new object[0]);
                 currentPrefix = Text.And;
             }
         }

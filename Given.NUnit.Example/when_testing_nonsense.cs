@@ -7,7 +7,7 @@ namespace Given.NUnit.Example
         given some_nonsense = () => { };
         when doing_nothing = () => { };
         [then]
-        public void nothing_should_happen()
+        public void it_should_break()
         {
             1.ShouldEqual(2);
         }

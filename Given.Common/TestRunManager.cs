@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 namespace Given.Common
 {
@@ -9,27 +8,35 @@ namespace Given.Common
     {
         static TestRun _testRun;
         static readonly IEnumerable<Type> Processors;
+        static readonly Type ReportConfiguration;
 
         static TestRunManager()
         {
-            Processors =
-                Assembly.GetAssembly(typeof (TestRunManager))
-                        .GetTypes()
-                        .Where(x => typeof (ITestResultProcessor).IsAssignableFrom(x) &&
-                                    x.IsAbstract == false &&
-                                    x.IsGenericTypeDefinition == false &&
-                                    x.IsInterface == false);
+            var concreteTypes =
+                AppDomain.CurrentDomain.GetAssemblies()
+                         .SelectMany(assembly => assembly.GetTypes())
+                         .Where(x => x.IsAbstract == false &&
+                                     x.IsGenericTypeDefinition == false &&
+                                     x.IsInterface == false).ToList();
 
+            Processors = concreteTypes.Where(x => typeof(ITestResultProcessor).IsAssignableFrom(x));
+
+            ReportConfiguration = concreteTypes.FirstOrDefault(x => typeof (IReportConfiguration).IsAssignableFrom(x) &&
+                                                                    x != typeof (DefaultReportConfiguration));
+
+            ReportConfiguration = ReportConfiguration ?? typeof(DefaultReportConfiguration);
+            
             AppDomain.CurrentDomain.DomainUnload += Unload;
         }
 
         static void Unload(object sender, EventArgs e)
         {
-            var testRunResults = CurrentTestRun.GetTestRunResults();
             
+            var testRunResults = CurrentTestRun.GetTestRunResults().ToList();
+            var config = Activator.CreateInstance(ReportConfiguration);            
             foreach (var processor in Processors)
             {
-                ((ITestResultProcessor) Activator.CreateInstance(processor)).Process(testRunResults, Guid.NewGuid());
+                ((ITestResultProcessor) Activator.CreateInstance(processor,new[] {config})).Process(testRunResults);
             }
         }
 

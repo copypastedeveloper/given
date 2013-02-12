@@ -53,7 +53,7 @@ namespace Given.MSTest
                     state = TestState.Unknown;
                     break;
             }
-            _testStateManager.SetThenState(TestContext.TestName, state);
+            _testStateManager.SetThenState(TestContext.TestName, state, string.Empty);
         }
     }
 }

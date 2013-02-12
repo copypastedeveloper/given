@@ -10,22 +10,24 @@ namespace Given.Common
 {
     public class HtmlTestProcessor : ITestResultProcessor
     {
+        readonly IReportConfiguration _reportConfiguration;
         string _page;
 
-        public HtmlTestProcessor()
+        public HtmlTestProcessor(IReportConfiguration reportConfiguration)
         {
+            _reportConfiguration = reportConfiguration;
             using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Given.Common.HtmlReport." + "htmlreport.html"))
             using (var reader = new StreamReader(stream))
             {
                 _page = reader.ReadToEnd();
             }
-            _page = _page.Replace("{Title}", string.Format("Results for {0}", Assembly.GetExecutingAssembly().GetName().Name));
+            _page = _page.Replace("{Title}", string.Format("Results for {0}", reportConfiguration.AssemblyHeader));
         }
 
-        public void Process(IEnumerable<TestResult> testResults, Guid testRunId)
+        public void Process(IEnumerable<TestResult> testResults)
         {
             var div = new HtmlGenericControl("div");
-            var path = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName + "\\" + string.Format("TestResults.{0}.{1}.html", DateTime.Now.ToString("yyy.MM.dd"), testRunId);
+            var path = _reportConfiguration.TestResultDirectory + "\\" + string.Format("TestResults.{0}.html", _reportConfiguration.TestRunId);
 
             foreach (var result in testResults)
             {
@@ -46,8 +48,8 @@ namespace Given.Common
 
         public HtmlGenericControl GetTestResultDiv(TestResult result)
         {
-            const string tag = "div";
-            var div = new HtmlGenericControl(tag);
+            const string tag = "li";
+            var div = new HtmlGenericControl("ul");
             div.Attributes.Add("class", "well");
             var currentPrefix = Text.Given;
 
@@ -103,16 +105,27 @@ namespace Given.Common
             currentPrefix = Text.Then;
             foreach (var statedThen in result.Thens)
             {
-                var control = new HtmlGenericControl(tag)
+                var control = new HtmlGenericControl("ul")
                 {
                     InnerText = String.Format(Text.Print, currentPrefix, statedThen.Name.Replace("_", " "))
                 };
                 control.Attributes["class"] = statedThen.State.ToString();
+
+                var exMessage = new HtmlGenericControl(tag) {InnerText = statedThen.Message};
+                control.Controls.Add(exMessage);
+
                 div.Controls.Add(control);
                 currentPrefix = Text.And;
             }
 
             return div;
         }
+    }
+
+    public interface IReportConfiguration
+    {
+        object TestRunId { get; }
+        string AssemblyHeader { get; }
+        string TestResultDirectory { get; }
     }
 }
