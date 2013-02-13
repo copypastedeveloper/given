@@ -63,7 +63,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\given.Common\Given.Common.csproj">
+    <ProjectReference Include="..\Given.Common\Given.Common.csproj">
       <Project>{81530fe0-14e7-40e5-805d-8beabb50e899}</Project>
       <Name>Given.Common</Name>
     </ProjectReference>

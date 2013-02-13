@@ -54,6 +54,7 @@ namespace Given.MSTest
                     state = TestState.Unknown;
                     break;
             }
+
             _testStateManager.SetThenState(TestContext.TestName, state, Message ?? string.Empty);
         }
 

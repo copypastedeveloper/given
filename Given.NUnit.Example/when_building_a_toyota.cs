@@ -1,6 +1,5 @@
 ﻿using Given.Common;
 using Given.Example;
-using Given.NUnit;
 
 namespace Given.NUnit.Example
 {

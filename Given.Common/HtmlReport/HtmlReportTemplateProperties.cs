@@ -4,8 +4,8 @@ namespace Given.Common.HtmlReport
 {
     public partial class HtmlReportTemplate
     {
-        protected IReportConfiguration ReportConfiguration { get; set; }
-        protected IEnumerable<TestResult> TestResults { get; set; }
+        public IReportConfiguration ReportConfiguration { get; set; }
+        public IEnumerable<TestResult> TestResults { get; set; }
         protected string GetReportHead()
         {
             return new HtmlReportHead().TransformText();

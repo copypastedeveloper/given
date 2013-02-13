@@ -17,11 +17,11 @@ namespace Given.MSTest.Example
 
         when building_a_toyota = () => _car = _factory.Make(CarType.Toyota);
 
-        //adding the then attribute is purely beautification for an ms test test.  
-        //this will cause it to be logged to the console appropriately and helps for reading consistency.
         [TestMethod]
         public void it_should_create_a_car()
         {
+            //the then method allows us to log exceptions.
+            //if that isn't important to you, you can leave it out.
             then(() =>_car.ShouldNotBeNull());
         }
 

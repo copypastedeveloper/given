@@ -6,9 +6,6 @@
 
 
 <style type="text/css">
-            .specification li, .specification ul { list-style: none; }
-            .passed { background-color: lightgreen;}
-            .failed { background-color: indianred;}
             /*!
              * Bootstrap v2.3.0
              *

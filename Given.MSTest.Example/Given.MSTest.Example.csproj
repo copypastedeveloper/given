@@ -40,11 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExampleReportConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="when_building_a_toyota.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\given.Common\Given.Common.csproj">
+    <ProjectReference Include="..\Given.Common\Given.Common.csproj">
       <Project>{81530FE0-14E7-40E5-805D-8BEABB50E899}</Project>
       <Name>Given.Common</Name>
     </ProjectReference>

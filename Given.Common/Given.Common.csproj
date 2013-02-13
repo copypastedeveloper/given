@@ -54,6 +54,7 @@
       <DependentUpon>HtmlReportTemplate.tt</DependentUpon>
     </Compile>
     <Compile Include="HtmlReport\HtmlReportTemplateProperties.cs" />
+    <Compile Include="IReportConfiguration.cs" />
     <Compile Include="ITestRunnerConfiguration.cs" />
     <Compile Include="ITestResultProcessor.cs" />
     <Compile Include="Text.cs" />
@@ -75,9 +76,6 @@
     <Compile Include="TestStateManager.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="HtmlReport\htmlreport.html" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="HtmlReport\HtmlReportHead.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>HtmlReportHead.cs</LastGenOutput>
@@ -90,6 +88,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,5 +1,4 @@
 ﻿<#@ template language="C#" #>
-<#@ assembly name="System.Core" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
@@ -10,6 +9,18 @@
     <head>
         <title><#= ReportConfiguration.AssemblyHeader#></title>
         <#= GetReportHead()#>
+		<style type="text/css">
+			.specification li, .specification ul { list-style: none; }
+            .passed { background-color: lightgreen;}
+            .failed { background-color: indianred;}
+			.then.failed { cursor: pointer;}
+			.then ul li { display: none; }
+		</style>
+		<script type="text/javascript">
+			$(function () {
+				$('.then').on('click',function () {$(this).find('.exception-message').toggle();})
+			})
+		</script>
     </head>
     <body>
       <div class="container-fluid">
@@ -23,14 +34,30 @@
                   <div class="span10">
 						<# foreach (var result in TestResults) 
 						   { #>
-						   <ul>
-							
+						   <ul class="well specification">
+								<# foreach (var given in result.Givens)
+								   {#>
+										<li><#=string.Format("{0} {1}", result.Givens.First() == given ? Text.Given : Text.And, given.Replace("_", " "))#></li>
+								 <#}#>
+								<# foreach (var when in result.Whens)
+								   {
+									#>
+										<li><#=string.Format("{0} {1}", result.Whens.First() == when ? Text.When : Text.And, when.Replace("_", " "))#></li>
+								 <#}#>
+								<# foreach (var then in result.Thens)
+								   {
+									#>
+										<li class="then <#=then.State.ToString().ToLower() #>"><#=string.Format("{0} {1}", result.Thens.First() == then ? Text.Then : Text.And, then.Name.Replace("_", " "))#>
+											<#if(!string.IsNullOrEmpty(then.Message)) {#>
+											<ul>
+												<li class="exception-message"><#=then.Message#></li>
+											</ul>
+											<#}#>
+										</li>
+								 <#}#>
 						   </ul>
-							  <tr><td> <#= result.ToString() #> </td>
-								  <td></td></tr>
 						<# } // end of foreach
 						#>
-                        {Content}
                   </div>
             </div>
       </div>

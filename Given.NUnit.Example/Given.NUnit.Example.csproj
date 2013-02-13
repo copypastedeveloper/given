@@ -51,7 +51,7 @@
       <Project>{7B16BD10-5BEF-4DB5-A0E7-C951378838D7}</Project>
       <Name>Given.NUnit</Name>
     </ProjectReference>
-    <ProjectReference Include="..\given.Common\Given.Common.csproj">
+    <ProjectReference Include="..\Given.Common\Given.Common.csproj">
       <Project>{81530FE0-14E7-40E5-805D-8BEABB50E899}</Project>
       <Name>Given.Common</Name>
     </ProjectReference>
