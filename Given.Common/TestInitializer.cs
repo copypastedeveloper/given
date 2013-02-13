@@ -56,7 +56,7 @@ namespace Given.Common
         {
             _typeToProcess
                 .GetMethods()
-                .Where(methodInfo => methodInfo.GetCustomAttributes(typeof (IThenAttribute), false).Any()).ToList()
+                .Where(TestRunManager.TestRunConfiguration.ThenIdentificationMethod).ToList()
                 .ForEach(x => testStateManager.AddThen(x.Name, x));
         }
     }

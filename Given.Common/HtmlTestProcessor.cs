@@ -50,7 +50,7 @@ namespace Given.Common
         {
             const string tag = "li";
             var div = new HtmlGenericControl("ul");
-            div.Attributes.Add("class", "well");
+            div.Attributes.Add("class", "well specification");
             var currentPrefix = Text.Given;
 
             var statusCount = result.Thens.GroupBy(x => x.State).Select(x => new { State = x.Key, Count = x.Count() });
@@ -105,13 +105,13 @@ namespace Given.Common
             currentPrefix = Text.Then;
             foreach (var statedThen in result.Thens)
             {
-                var control = new HtmlGenericControl("ul")
+                var control = new HtmlGenericControl("li")
                 {
                     InnerText = String.Format(Text.Print, currentPrefix, statedThen.Name.Replace("_", " "))
                 };
                 control.Attributes["class"] = statedThen.State.ToString();
 
-                var exMessage = new HtmlGenericControl(tag) {InnerText = statedThen.Message};
+                var exMessage = new HtmlGenericControl("ul") {InnerText = statedThen.Message};
                 control.Controls.Add(exMessage);
 
                 div.Controls.Add(control);

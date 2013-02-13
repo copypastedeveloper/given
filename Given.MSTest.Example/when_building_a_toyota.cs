@@ -19,16 +19,22 @@ namespace Given.MSTest.Example
 
         //adding the then attribute is purely beautification for an ms test test.  
         //this will cause it to be logged to the console appropriately and helps for reading consistency.
-        [then, TestMethod]
+        [TestMethod]
         public void it_should_create_a_car()
         {
-            _car.ShouldNotBeNull();
+            then(() =>_car.ShouldNotBeNull());
         }
 
-        [then, TestMethod]
+        [TestMethod]
         public void it_should_be_the_right_type_of_car()
         {
-            _car.Type.ShouldEqual(CarType.Toyota);
+            then(() => _car.Type.ShouldEqual(CarType.Toyota));
+        }
+
+        [TestMethod]
+        public void it_should_be_the_wrong_type_of_car()
+        {
+            then(() => _car.Type.ShouldEqual(CarType.Ford));
         }
     }
 }

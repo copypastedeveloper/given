@@ -15,6 +15,7 @@ namespace Given.MSTest
         ///information about and functionality for the current test run.
         ///</summary>
         public TestContext TestContext { get; set; }
+        protected string Message { get; set; }
 
         protected Specification()
         {
@@ -24,7 +25,7 @@ namespace Given.MSTest
             _initializer.ProcessWhen(_testStateManager);
             _initializer.ProcessThen(_testStateManager);
         }
-        
+
         [TestInitialize]
         public void Setup()
         {
@@ -53,7 +54,20 @@ namespace Given.MSTest
                     state = TestState.Unknown;
                     break;
             }
-            _testStateManager.SetThenState(TestContext.TestName, state, string.Empty);
+            _testStateManager.SetThenState(TestContext.TestName, state, Message ?? string.Empty);
+        }
+
+        protected void then(Action action)
+        {
+            try
+            {
+                action.Invoke();
+            }
+            catch (Exception ex)
+            {
+                Message = ex.Message;
+                throw;
+            }
         }
     }
 }

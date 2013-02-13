@@ -1,0 +1,38 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".xml" #>
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><#= ReportConfiguration.AssemblyHeader#></title>
+        <#= GetReportHead()#>
+    </head>
+    <body>
+      <div class="container-fluid">
+            <div class="page-header">
+                  <h1><#= ReportConfiguration.AssemblyHeader#></h1>
+            </div>
+            <div class="row-fluid">
+                  <div class="span2">
+                  <!--Sidebar content-->
+                  </div>
+                  <div class="span10">
+						<# foreach (var result in TestResults) 
+						   { #>
+						   <ul>
+							
+						   </ul>
+							  <tr><td> <#= result.ToString() #> </td>
+								  <td></td></tr>
+						<# } // end of foreach
+						#>
+                        {Content}
+                  </div>
+            </div>
+      </div>
+    </body>
+</html>
