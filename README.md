@@ -33,7 +33,7 @@ NUnit Example:
 
 MSTest Example:
 ====
-[TestClass]
+    [TestClass]
     public class when_building_a_toyota : Specification
     {
         static CarFactory _factory;
