@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Given</id>
+    <version>0.1</version>
+    <title>Given: A BDD Framework</title>
+    <authors>Nathan Gonzalez</authors>
+    <owners>Nathan Gonzalez</owners>
+    <projectUrl>http://github.com/ncgonz/given</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A simple test runner agnostic BDD framework</description>
+    <releaseNotes>Initial release</releaseNotes>
+    <tags>BDD TDD Testing</tags>
+  </metadata>
+</package>

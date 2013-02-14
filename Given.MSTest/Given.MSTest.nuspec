@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Given.MSTest</id>
+    <version>0.1</version>
+    <title>Given: A BDD Framework</title>
+    <authors>Nathan Gonzalez</authors>
+    <owners>Nathan Gonzalez</owners>
+    <projectUrl>http://github.com/ncgonz/given</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A MS Test wrapper for the Given BDD framework</description>
+    <releaseNotes>Initial release</releaseNotes>
+    <tags>BDD TDD Testing MSTest</tags>
+    <dependencies>
+      <dependency id="Given" /> 
+    </dependencies>
+  </metadata>
+</package>

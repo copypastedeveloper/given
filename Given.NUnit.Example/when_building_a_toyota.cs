@@ -26,5 +26,11 @@ namespace Given.NUnit.Example
         {
             _car.Type.ShouldEqual(CarType.Toyota);
         }
+        
+        [then]
+        public void it_should_be_the_wrong_type_of_car()
+        {
+            _car.Type.ShouldEqual(CarType.Ford);
+        }
     }
 }
