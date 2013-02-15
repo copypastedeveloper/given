@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Given.Common
 {
@@ -19,7 +20,7 @@ namespace Given.Common
                                    ReportConfiguration = _reportConfiguration,
                                    TestResults = testResults
                                };
-
+            
             var renderedTemplate = template.TransformText();
 
             using (var outfile = new StreamWriter(_reportConfiguration.TestResultDirectory + string.Format(@"\TestResults.{0}.html", _reportConfiguration.AssemblyHeader),false))

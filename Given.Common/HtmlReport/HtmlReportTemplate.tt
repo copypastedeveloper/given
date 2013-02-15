@@ -32,6 +32,12 @@
 					<div class="well sidebar-nav">
 						<ul class="nav nav-list">
 							<li class="nav-header">Results</li>
+							<#foreach(var state in TestResults.SelectMany(x => x.Tests).SelectMany(x => x.Thens).GroupBy(then => then.State))
+                              {#>
+							<li>
+								<#=string.Format("{0} : {1}",state.Key, state.Count())#>
+							</li>
+							<#}#>
 						</ul>	
 					</div>
                 </div>
