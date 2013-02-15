@@ -27,6 +27,6 @@ namespace Given.Common
             set { _soThat = value; }
         }
 
-        public bool IsValid { get { return !string.IsNullOrEmpty(_asA); } }
+        public bool IsValid { get { return !string.IsNullOrEmpty(_asA) && !string.IsNullOrEmpty(_want); } }
     }
 }

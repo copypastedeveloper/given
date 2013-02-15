@@ -58,7 +58,7 @@
     <Compile Include="AssemblyFixtureAttribute.cs" />
     <Compile Include="scenarioAttribute.cs" />
     <Compile Include="thenAttribute.cs" />
-    <Compile Include="Specification.cs" />
+    <Compile Include="Scenario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

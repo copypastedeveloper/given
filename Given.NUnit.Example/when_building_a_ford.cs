@@ -6,7 +6,7 @@ namespace Given.NUnit.Example
     [Story(AsA = "car manufacturer",
         IWant = "a factory that makes the right cars",
         SoThat = "I can make money")]
-    public class when_building_a_ford : Specification
+    public class when_building_a_ford : Scenario
     {
         static CarFactory _factory;
         static Car _car;

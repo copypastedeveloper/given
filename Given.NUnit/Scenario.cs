@@ -6,7 +6,7 @@ using Core = NUnit.Core;
 namespace Given.NUnit
 {
     [TestFixture]
-    public abstract class Specification
+    public abstract class Scenario
     {
         TestStateManager _testStateManager;
 
