@@ -19,7 +19,7 @@ namespace Given.Common
 
         public string GetDescription(string format = "{0}{1}{2}")
         {
-            return !string.IsNullOrEmpty(_storyAttribute.AsA) ? string.Format(format, _storyAttribute.AsA, _storyAttribute.IWant, _storyAttribute.SoThat) : string.Empty;
+            return _storyAttribute.IsValid ? string.Format(format, _storyAttribute.AsA, _storyAttribute.IWant, _storyAttribute.SoThat) : string.Empty;
         }
 
         public List<TestResult> Tests

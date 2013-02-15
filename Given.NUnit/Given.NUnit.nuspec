@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Given.NUnit</id>
-    <version>0.1</version>
+    <version>$version$</version>
     <title>Given: A BDD Framework</title>
     <authors>Nathan Gonzalez</authors>
     <owners>Nathan Gonzalez</owners>
@@ -10,7 +10,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>An NUnit wrapper for the Given BDD framework</description>
     <releaseNotes>Initial release</releaseNotes>
-    <tags>BDD TDD Testing NUnit</tags>
+    <tags>BDD TDD Testing NUnit Given</tags>
     <dependencies>
       <dependency id="Given" /> 
     </dependencies>

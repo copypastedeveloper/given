@@ -1,6 +1,6 @@
 ﻿namespace Given.Common
 {
-    public interface IThenAttribute
+    public interface IThen
     {
     }
 }

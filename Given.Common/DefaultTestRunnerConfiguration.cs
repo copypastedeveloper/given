@@ -8,7 +8,7 @@ namespace Given.Common
     {
         public Func<MethodInfo, bool> ThenIdentificationMethod
         {
-            get { return methodInfo => methodInfo.GetCustomAttributes(typeof (IThenAttribute), false).Any(); }
+            get { return methodInfo => methodInfo.GetCustomAttributes(typeof (IThen), false).Any(); }
         }
     }
 }

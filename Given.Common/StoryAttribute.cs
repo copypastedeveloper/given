@@ -26,5 +26,7 @@ namespace Given.Common
             get { return "so that " + _soThat; }
             set { _soThat = value; }
         }
+
+        public bool IsValid { get { return !string.IsNullOrEmpty(_asA); } }
     }
 }

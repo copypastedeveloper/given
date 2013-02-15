@@ -68,7 +68,6 @@
     <Compile Include="TestInitializer.cs" />
     <Compile Include="Delegates.cs" />
     <Compile Include="DidNotThrowAnExceptionException.cs" />
-    <Compile Include="ISpecification.cs" />
     <Compile Include="IThen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestResult.cs" />
