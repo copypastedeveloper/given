@@ -66,121 +66,152 @@ namespace Given.Common.HtmlReport
             
             #line default
             #line hidden
-            this.Write("</h1>\r\n            </div>\r\n            <div class=\"row-fluid\">\r\n                 " +
-                    " <div class=\"span2\">\r\n                  <!--Sidebar content-->\r\n                " +
-                    "  </div>\r\n                  <div class=\"span10\">\r\n\t\t\t\t\t\t");
+            this.Write(@"</h1>
+            </div>
+            <div class=""row-fluid"">
+                <div class=""span2"">
+					<div class=""well sidebar-nav"">
+						<ul class=""nav nav-list"">
+							<li class=""nav-header"">Results</li>
+						</ul>	
+					</div>
+                </div>
+                <div class=""span10"">
+					");
             
-            #line 35 "D:\projects\given\Given.Common\HtmlReport\HtmlReportTemplate.tt"
- foreach (var result in TestResults) 
-						   { 
+            #line 39 "D:\projects\given\Given.Common\HtmlReport\HtmlReportTemplate.tt"
+ foreach (var story in TestResults) 
+						{ 
             
             #line default
             #line hidden
-            this.Write("\t\t\t\t\t\t   <ul class=\"well specification\">\r\n\t\t\t\t\t\t\t\t");
+            this.Write("\t\t\t\t\t\t<div class=\"story well\">\r\n\t\t\t\t\t\t\t<h5>");
             
-            #line 38 "D:\projects\given\Given.Common\HtmlReport\HtmlReportTemplate.tt"
+            #line 42 "D:\projects\given\Given.Common\HtmlReport\HtmlReportTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(story.GetDescription("{0}<br />{1}<br />{2}.")));
+            
+            #line default
+            #line hidden
+            this.Write("</h3>\r\n\t\t\t\t\t\t");
+            
+            #line 43 "D:\projects\given\Given.Common\HtmlReport\HtmlReportTemplate.tt"
+ foreach (var result in story.Tests) 
+							{ 
+            
+            #line default
+            #line hidden
+            this.Write("\t\t\t\t\t\t\t<ul class=\"well specification\">\r\n\t\t\t\t\t\t\t\t");
+            
+            #line 46 "D:\projects\given\Given.Common\HtmlReport\HtmlReportTemplate.tt"
  foreach (var given in result.Givens)
-								   {
+									{
             
             #line default
             #line hidden
             this.Write("\t\t\t\t\t\t\t\t\t\t<li>");
             
-            #line 40 "D:\projects\given\Given.Common\HtmlReport\HtmlReportTemplate.tt"
+            #line 48 "D:\projects\given\Given.Common\HtmlReport\HtmlReportTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(string.Format("{0} {1}", result.Givens.First() == given ? Text.Given : Text.And, given.Replace("_", " "))));
             
             #line default
             #line hidden
-            this.Write("</li>\r\n\t\t\t\t\t\t\t\t ");
+            this.Write("</li>\r\n\t\t\t\t\t\t\t\t\t");
             
-            #line 41 "D:\projects\given\Given.Common\HtmlReport\HtmlReportTemplate.tt"
+            #line 49 "D:\projects\given\Given.Common\HtmlReport\HtmlReportTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("\t\t\t\t\t\t\t\t");
             
-            #line 42 "D:\projects\given\Given.Common\HtmlReport\HtmlReportTemplate.tt"
+            #line 50 "D:\projects\given\Given.Common\HtmlReport\HtmlReportTemplate.tt"
  foreach (var when in result.Whens)
-								   {
+									{
 									
             
             #line default
             #line hidden
             this.Write("\t\t\t\t\t\t\t\t\t\t<li>");
             
-            #line 45 "D:\projects\given\Given.Common\HtmlReport\HtmlReportTemplate.tt"
+            #line 53 "D:\projects\given\Given.Common\HtmlReport\HtmlReportTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(string.Format("{0} {1}", result.Whens.First() == when ? Text.When : Text.And, when.Replace("_", " "))));
             
             #line default
             #line hidden
-            this.Write("</li>\r\n\t\t\t\t\t\t\t\t ");
+            this.Write("</li>\r\n\t\t\t\t\t\t\t\t\t");
             
-            #line 46 "D:\projects\given\Given.Common\HtmlReport\HtmlReportTemplate.tt"
+            #line 54 "D:\projects\given\Given.Common\HtmlReport\HtmlReportTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("\t\t\t\t\t\t\t\t");
             
-            #line 47 "D:\projects\given\Given.Common\HtmlReport\HtmlReportTemplate.tt"
+            #line 55 "D:\projects\given\Given.Common\HtmlReport\HtmlReportTemplate.tt"
  foreach (var then in result.Thens)
-								   {
+									{
 									
             
             #line default
             #line hidden
             this.Write("\t\t\t\t\t\t\t\t\t\t<li class=\"then ");
             
-            #line 50 "D:\projects\given\Given.Common\HtmlReport\HtmlReportTemplate.tt"
+            #line 58 "D:\projects\given\Given.Common\HtmlReport\HtmlReportTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(then.State.ToString().ToLower()));
             
             #line default
             #line hidden
             this.Write("\">");
             
-            #line 50 "D:\projects\given\Given.Common\HtmlReport\HtmlReportTemplate.tt"
+            #line 58 "D:\projects\given\Given.Common\HtmlReport\HtmlReportTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(string.Format("{0} {1}", result.Thens.First() == then ? Text.Then : Text.And, then.Name.Replace("_", " "))));
             
             #line default
             #line hidden
             this.Write("\r\n\t\t\t\t\t\t\t\t\t\t\t");
             
-            #line 51 "D:\projects\given\Given.Common\HtmlReport\HtmlReportTemplate.tt"
+            #line 59 "D:\projects\given\Given.Common\HtmlReport\HtmlReportTemplate.tt"
 if(!string.IsNullOrEmpty(then.Message)) {
             
             #line default
             #line hidden
             this.Write("\t\t\t\t\t\t\t\t\t\t\t<ul>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<li class=\"exception-message\">");
             
-            #line 53 "D:\projects\given\Given.Common\HtmlReport\HtmlReportTemplate.tt"
+            #line 61 "D:\projects\given\Given.Common\HtmlReport\HtmlReportTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(then.Message));
             
             #line default
             #line hidden
             this.Write("</li>\r\n\t\t\t\t\t\t\t\t\t\t\t</ul>\r\n\t\t\t\t\t\t\t\t\t\t\t");
             
-            #line 55 "D:\projects\given\Given.Common\HtmlReport\HtmlReportTemplate.tt"
+            #line 63 "D:\projects\given\Given.Common\HtmlReport\HtmlReportTemplate.tt"
 }
             
             #line default
             #line hidden
-            this.Write("\t\t\t\t\t\t\t\t\t\t</li>\r\n\t\t\t\t\t\t\t\t ");
+            this.Write("\t\t\t\t\t\t\t\t\t\t</li>\r\n\t\t\t\t\t\t\t\t\t");
             
-            #line 57 "D:\projects\given\Given.Common\HtmlReport\HtmlReportTemplate.tt"
+            #line 65 "D:\projects\given\Given.Common\HtmlReport\HtmlReportTemplate.tt"
 }
             
             #line default
             #line hidden
-            this.Write("\t\t\t\t\t\t   </ul>\r\n\t\t\t\t\t\t");
+            this.Write("\t\t\t\t\t\t\t</ul>\r\n\t\t\t\t\t\t");
             
-            #line 59 "D:\projects\given\Given.Common\HtmlReport\HtmlReportTemplate.tt"
- } // end of foreach
-						
+            #line 67 "D:\projects\given\Given.Common\HtmlReport\HtmlReportTemplate.tt"
+ } 
             
             #line default
             #line hidden
-            this.Write("                  </div>\r\n            </div>\r\n      </div>\r\n    </body>\r\n</html>");
+            this.Write("\t\t\t\t\t\t</div>\r\n\t\t\t\t\t");
+            
+            #line 69 "D:\projects\given\Given.Common\HtmlReport\HtmlReportTemplate.tt"
+}
+					
+            
+            #line default
+            #line hidden
+            this.Write("                </div>\r\n            </div>\r\n      </div>\r\n    </body>\r\n</html>");
             return this.GenerationEnvironment.ToString();
         }
     }

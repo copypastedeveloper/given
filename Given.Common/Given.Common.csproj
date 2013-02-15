@@ -57,6 +57,8 @@
     <Compile Include="IReportConfiguration.cs" />
     <Compile Include="ITestRunnerConfiguration.cs" />
     <Compile Include="ITestResultProcessor.cs" />
+    <Compile Include="Story.cs" />
+    <Compile Include="StoryAttribute.cs" />
     <Compile Include="Text.cs" />
     <Compile Include="HtmlTestProcessor.cs" />
     <Compile Include="ITestStateManager.cs" />

@@ -4,6 +4,6 @@ namespace Given.Common
 {
     public interface ITestResultProcessor
     {
-        void Process(IEnumerable<TestResult> testResults);
+        void Process(IEnumerable<Story> testResults);
     }
 }

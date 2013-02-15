@@ -46,7 +46,7 @@ namespace Given.Common
 
         static void Unload(object sender, EventArgs e)
         {   
-            var testRunResults = CurrentTestRun.GetTestRunResults().ToList();
+            var testRunResults = CurrentTestRun.GetStories().ToList();
             var config = Activator.CreateInstance(ReportConfiguration);            
             foreach (var processor in Processors)
             {

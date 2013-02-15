@@ -3,6 +3,9 @@ using Given.Example;
 
 namespace Given.NUnit.Example
 {
+    [Story(AsA = "car manufacturer",
+           IWant = "a factory that makes the right cars",
+           SoThat = "I can make money")]
     public class when_building_a_toyota : Specification
     {
         static CarFactory _factory;
@@ -20,13 +23,13 @@ namespace Given.NUnit.Example
         {
             _car.ShouldNotBeNull();
         }
-        
+
         [then]
         public void it_should_be_the_right_type_of_car()
         {
             _car.Type.ShouldEqual(CarType.Toyota);
         }
-        
+
         [then]
         public void it_should_be_the_wrong_type_of_car()
         {

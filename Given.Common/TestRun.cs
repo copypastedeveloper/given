@@ -7,40 +7,25 @@ namespace Given.Common
 {
     internal class TestRun
     {
-        readonly List<TestStateManager> _tests;
+        readonly List<Story> _stories;
         
         public TestRun()
         {
-            _tests = new List<TestStateManager>();
+            _stories = new List<Story>();
         }
 
         public void AddTest(TestStateManager testStateManager, Type type)
         {
-            _tests.Add(testStateManager);
+            var story = new Story((StoryAttribute)type.GetCustomAttributes(typeof (StoryAttribute), true).FirstOrDefault() ?? new StoryAttribute()) ;
+            if (!_stories.Any(x => x.Equals(story)))
+                _stories.Add(story);
+            
+            story.AddTestStateManager(testStateManager);
         }
 
-        public List<TestResult> GetTestRunResults()
+        public List<Story> GetStories()
         {
-            //this is for MSTest.  Each 'then' in MSTest gets its own TestStateManager, here we combine all of them back together
-            var consolidatedTests = _tests
-                .GroupBy(x => x.TestType, (key, tests) =>
-                                                   {
-                                                       var aggregatedThens = new PairList<MethodInfo, StatedThen>();
-                                                       var testStateManagers = tests.ToList();
-
-                                                       foreach (var test in testStateManagers)
-                                                       {
-                                                           test.Thens.RemoveAll(x => x.Value.State == TestState.Unknown);
-                                                           aggregatedThens.AddRange(test.Thens);
-                                                           test.Thens.Clear();
-                                                       }
-
-                                                       var first = testStateManagers.First();
-                                                       first.Thens.AddRange(aggregatedThens);
-                                                       return first;
-                                                   });
-
-            return consolidatedTests.Select(x => new TestResult(x.Givens.Select(y => y.Value), x.Whens.Select(y => y.Value), x.Thens.Select(y => y.Value),x.TestType)).ToList();
+            return _stories;
         }
     }
 }

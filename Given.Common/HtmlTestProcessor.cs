@@ -12,7 +12,7 @@ namespace Given.Common
             _reportConfiguration = reportConfiguration;
         }
 
-        public void Process(IEnumerable<TestResult> testResults)
+        public void Process(IEnumerable<Story> testResults)
         {
             var template = new HtmlReport.HtmlReportTemplate
                                {

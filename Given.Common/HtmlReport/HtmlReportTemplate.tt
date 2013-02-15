@@ -28,24 +28,32 @@
                   <h1><#= ReportConfiguration.AssemblyHeader#></h1>
             </div>
             <div class="row-fluid">
-                  <div class="span2">
-                  <!--Sidebar content-->
-                  </div>
-                  <div class="span10">
-						<# foreach (var result in TestResults) 
-						   { #>
-						   <ul class="well specification">
+                <div class="span2">
+					<div class="well sidebar-nav">
+						<ul class="nav nav-list">
+							<li class="nav-header">Results</li>
+						</ul>	
+					</div>
+                </div>
+                <div class="span10">
+					<# foreach (var story in TestResults) 
+						{ #>
+						<div class="story well">
+							<h5><#=story.GetDescription("{0}<br />{1}<br />{2}.")#></h3>
+						<# foreach (var result in story.Tests) 
+							{ #>
+							<ul class="well specification">
 								<# foreach (var given in result.Givens)
-								   {#>
+									{#>
 										<li><#=string.Format("{0} {1}", result.Givens.First() == given ? Text.Given : Text.And, given.Replace("_", " "))#></li>
-								 <#}#>
+									<#}#>
 								<# foreach (var when in result.Whens)
-								   {
+									{
 									#>
 										<li><#=string.Format("{0} {1}", result.Whens.First() == when ? Text.When : Text.And, when.Replace("_", " "))#></li>
-								 <#}#>
+									<#}#>
 								<# foreach (var then in result.Thens)
-								   {
+									{
 									#>
 										<li class="then <#=then.State.ToString().ToLower() #>"><#=string.Format("{0} {1}", result.Thens.First() == then ? Text.Then : Text.And, then.Name.Replace("_", " "))#>
 											<#if(!string.IsNullOrEmpty(then.Message)) {#>
@@ -54,11 +62,13 @@
 											</ul>
 											<#}#>
 										</li>
-								 <#}#>
-						   </ul>
-						<# } // end of foreach
-						#>
-                  </div>
+									<#}#>
+							</ul>
+						<# } #>
+						</div>
+					<#}
+					#>
+                </div>
             </div>
       </div>
     </body>
