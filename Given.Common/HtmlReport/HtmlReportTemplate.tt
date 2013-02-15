@@ -10,7 +10,7 @@
         <title><#= ReportConfiguration.AssemblyHeader#></title>
         <#= GetReportHead()#>
 		<style type="text/css">
-			.specification li, .specification ul { list-style: none; }
+			.scenario li, .scenario ul { list-style: none; }
             .passed { background-color: lightgreen;}
             .failed { background-color: indianred;}
 			.then.failed { cursor: pointer;}
@@ -48,7 +48,7 @@
 							<h5><#=story.GetDescription("{0}<br />{1}<br />{2}.")#></h3>
 						<# foreach (var result in story.Tests) 
 							{ #>
-							<ul class="well specification">
+							<ul class="well scenario"><h6><#=System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(result.Type.Name.ToString().Replace("_"," "))#></h6>
 								<# foreach (var given in result.Givens)
 									{#>
 										<li><#=string.Format("{0} {1}", result.Givens.First() == given ? Text.Given : Text.And, given.Replace("_", " "))#></li>

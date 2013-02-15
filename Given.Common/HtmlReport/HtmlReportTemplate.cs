@@ -44,7 +44,7 @@ namespace Given.Common.HtmlReport
             #line hidden
             this.Write(@"
 		<style type=""text/css"">
-			.specification li, .specification ul { list-style: none; }
+			.scenario li, .scenario ul { list-style: none; }
             .passed { background-color: lightgreen;}
             .failed { background-color: indianred;}
 			.then.failed { cursor: pointer;}
@@ -114,7 +114,14 @@ foreach(var state in TestResults.SelectMany(x => x.Tests).SelectMany(x => x.Then
             
             #line default
             #line hidden
-            this.Write("\t\t\t\t\t\t\t<ul class=\"well specification\">\r\n\t\t\t\t\t\t\t\t");
+            this.Write("\t\t\t\t\t\t\t<ul class=\"well scenario\"><h6>");
+            
+            #line 51 "D:\projects\given\Given.Common\HtmlReport\HtmlReportTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(result.Type.Name.ToString().Replace("_"," "))));
+            
+            #line default
+            #line hidden
+            this.Write("</h6>\r\n\t\t\t\t\t\t\t\t");
             
             #line 52 "D:\projects\given\Given.Common\HtmlReport\HtmlReportTemplate.tt"
  foreach (var given in result.Givens)
