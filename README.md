@@ -5,7 +5,9 @@ Given is a bdd library made with the intent of wrapping common testing framework
 
 NUnit Example:
 =====
-
+    [Story(AsA = "car manufacturer",
+           IWant = "a factory that makes the right cars",
+           SoThat = "I can make money")]
     public class when_building_a_toyota : Specification
     {
         static CarFactory _factory;
@@ -34,6 +36,9 @@ NUnit Example:
 MSTest Example:
 ====
     [TestClass]
+    [Story(AsA = "car manufacturer",
+           IWant = "a factory that makes the right cars",
+           SoThat = "I can make money")]
     public class when_building_a_toyota : Specification
     {
         static CarFactory _factory;
