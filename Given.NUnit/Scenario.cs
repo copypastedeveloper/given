@@ -30,7 +30,17 @@ namespace Given.NUnit
             var context = TestContext.CurrentContext;
             TestState state;
 
-            switch (context.Result.Status)
+            TestStatus status;
+            try
+            {
+                status = context.Result.Status;
+            }
+            catch (Exception)
+            {
+                status = TestStatus.Inconclusive;
+            }
+
+            switch (status)
             {
                 case TestStatus.Failed:
                     state = TestState.Failed;
@@ -48,8 +58,13 @@ namespace Given.NUnit
 
             var message = GetTestExecutionMessage();
 
-            _testStateManager.SetThenState(context.Test.Name, state, message == null ? string.Empty : message.ToString());
-
+            try
+            {
+                _testStateManager.SetThenState(context.Test.Name, state, message == null ? string.Empty : message.ToString());
+            }
+            catch (Exception)
+            {
+            }
         }
 
         static object GetTestExecutionMessage()
