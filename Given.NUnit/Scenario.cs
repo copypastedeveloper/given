@@ -15,9 +15,16 @@ namespace Given.NUnit
         [TestFixtureSetUp]
         public void Setup()
         {
-            _testStateManager = new TestStateManager(this);            
+            _testStateManager = new TestStateManager(this);
             var initializer = new TestInitializer(this);
 
+            //todo: there needs to be a common way to ignore setup for scenarios where all tests are ignored.  this sucks.
+            if (!GetType().GetMethods().Any(y => new DefaultTestRunnerConfiguration().ThenIdentificationMethod(y) &&
+                                                 !y.GetCustomAttributes(typeof (IgnoreAttribute), true).Any()))
+            {
+                return;
+            }
+            
             initializer.ProcessGiven(_testStateManager);
             initializer.ProcessWhen(_testStateManager);
             initializer.ProcessThen(_testStateManager);
@@ -47,8 +54,8 @@ namespace Given.NUnit
                     break;
                 case TestStatus.Passed:
                     state = TestState.Passed;
-                    break;    
-                    case TestStatus.Skipped:
+                    break;
+                case TestStatus.Skipped:
                     state = TestState.Ignored;
                     break;
                 default:
