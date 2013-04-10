@@ -62,7 +62,9 @@ namespace Given.Common
             foreach (var pair in Thens)
             {
                 consoleAction(Text.Print, new object[] {currentPrefix, pair.Value.Name.Replace("_", " ")});
-                consoleAction(pair.Value.Message ?? string.Empty, new object[0]);
+                if (!string.IsNullOrEmpty(pair.Value.Message))
+                    consoleAction(pair.Value.Message, new object[0]);
+
                 currentPrefix = Text.And;
             }
         }
