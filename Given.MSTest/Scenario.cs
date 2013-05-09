@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Given.MSTest
 {
     [TestClass]
-    public abstract class Specification
+    public abstract class Scenario
     {
         readonly TestInitializer _initializer;
         readonly TestStateManager _testStateManager;
@@ -17,7 +17,7 @@ namespace Given.MSTest
         public TestContext TestContext { get; set; }
         protected string Message { get; set; }
 
-        protected Specification()
+        protected Scenario()
         {
             _testStateManager = new TestStateManager(this);            
             _initializer = new TestInitializer(this);
