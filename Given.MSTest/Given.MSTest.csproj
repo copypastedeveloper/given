@@ -41,7 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MSTestRunnerConfiguration.cs" />
-    <Compile Include="Specification.cs" />
+    <Compile Include="Scenario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

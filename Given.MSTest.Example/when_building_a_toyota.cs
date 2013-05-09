@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Given.MSTest.Example
 {
     [TestClass]
-    public class when_building_a_toyota : Specification
+    public class when_building_a_toyota : Scenario
     {
         static CarFactory _factory;
         static Car _car;
