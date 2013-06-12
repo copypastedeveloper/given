@@ -1,4 +1,5 @@
-﻿using Given.Common;
+﻿using System;
+using Given.Common;
 using Given.Example;
 
 namespace Given.NUnit.Example
@@ -8,15 +9,10 @@ namespace Given.NUnit.Example
         SoThat = "I can make money")]
     public class using_a_car_factory_to_make_a_ford : Scenario
     {
-        static CarFactory _factory;
+        static Lazy<CarFactory> _carFactory = Context.Given<CarFactory>("a car factory");
         static Car _car;
 
-        given a_car_factory = () =>
-                                  {
-                                      _factory = new CarFactory();
-                                  };
-
-        when building_a_ford = () => _car = _factory.Make(CarType.Ford);
+        when building_a_ford = () => _car = _carFactory.Value.Make(CarType.Ford);
 
         [then]
         public void it_should_create_a_car()

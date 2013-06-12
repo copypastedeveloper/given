@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContextProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="using_a_car_factory_to_make_a_ford.cs" />
     <Compile Include="when_building_a_toyota.cs" />

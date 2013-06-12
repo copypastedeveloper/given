@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Given.Common</RootNamespace>
     <AssemblyName>Given.Common</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Catch.cs" />
+    <Compile Include="IContextProvider.cs" />
     <Compile Include="DefaultReportConfiguration.cs" />
     <Compile Include="DefaultTestRunnerConfiguration.cs" />
     <Compile Include="HtmlReport\HtmlReportHead.cs">
@@ -57,6 +58,7 @@
     <Compile Include="IReportConfiguration.cs" />
     <Compile Include="ITestRunnerConfiguration.cs" />
     <Compile Include="ITestResultProcessor.cs" />
+    <Compile Include="Context.cs" />
     <Compile Include="Story.cs" />
     <Compile Include="StoryAttribute.cs" />
     <Compile Include="Text.cs" />

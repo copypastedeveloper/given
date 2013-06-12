@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace Given.Common
 {
@@ -9,6 +10,8 @@ namespace Given.Common
         static TestRun _testRun;
         static readonly IEnumerable<Type> Processors;
         static readonly Type ReportConfiguration;
+
+        public static BindingFlags FieldsToRetrieve = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance;
 
         public static ITestRunnerConfiguration TestRunConfiguration { get; private set; }
 
@@ -19,13 +22,12 @@ namespace Given.Common
 
         static TestRunManager()
         {
-            var concreteTypes =
-                AppDomain.CurrentDomain.GetAssemblies()
-                         .SelectMany(assembly => assembly.GetTypes())
-                         .Where(x => x.IsAbstract == false &&
-                                     x.IsGenericTypeDefinition == false &&
-                                     x.IsInterface == false).ToList();
-
+            var concreteTypes = AppDomain.CurrentDomain.GetAssemblies()
+                                         .SelectMany(assembly => assembly.GetTypes()).ToList()
+                                         .Where(x => x.IsAbstract == false &&
+                                                     x.IsGenericTypeDefinition == false &&
+                                                     x.IsInterface == false).ToList();
+            
             Processors = concreteTypes.Where(x => typeof(ITestResultProcessor).IsAssignableFrom(x));
 
             ReportConfiguration = concreteTypes.FirstOrDefault(x => typeof (IReportConfiguration).IsAssignableFrom(x) &&
@@ -33,11 +35,11 @@ namespace Given.Common
 
             ReportConfiguration = ReportConfiguration ?? typeof(DefaultReportConfiguration);
 
-            var type =
-                concreteTypes.FirstOrDefault(x =>
-                                             typeof (ITestRunnerConfiguration).IsAssignableFrom(x) &&
-                                             x != typeof (DefaultTestRunnerConfiguration))
-                ?? typeof (DefaultTestRunnerConfiguration);
+            //initialize context providers
+            concreteTypes.Where(x => typeof(IContextProvider).IsAssignableFrom(x)).ToList()
+                .ForEach(x => ((IContextProvider)Activator.CreateInstance(x)).SetupContext());
+
+            var type = concreteTypes.FirstOrDefault(x => typeof (ITestRunnerConfiguration).IsAssignableFrom(x) && x != typeof (DefaultTestRunnerConfiguration)) ?? typeof (DefaultTestRunnerConfiguration);
 
             TestRunConfiguration = (ITestRunnerConfiguration)Activator.CreateInstance(type);
             

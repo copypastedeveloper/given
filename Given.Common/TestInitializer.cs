@@ -21,10 +21,10 @@ namespace Given.Common
         void DetermineFields()
         {
             var currentType = _typeToProcess;
-            _fields = currentType.GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance).ToList();
+            _fields = currentType.GetFields(TestRunManager.FieldsToRetrieve).ToList();
 
             while ((currentType = currentType.BaseType) != null)
-                _fields.InsertRange(0, currentType.GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance));
+                _fields.InsertRange(0, currentType.GetFields(TestRunManager.FieldsToRetrieve));
         }
 
         public void ProcessGiven(ITestStateManager testStateManager)

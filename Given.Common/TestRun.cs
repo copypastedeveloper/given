@@ -15,6 +15,8 @@ namespace Given.Common
 
         public void AddTest(TestStateManager testStateManager, Type type)
         {
+            CurrentTest = testStateManager;
+
             var story = new Story((StoryAttribute)type.GetCustomAttributes(typeof(StoryAttribute), true).FirstOrDefault() ?? new StoryAttribute());
             
             if (!_stories.Any(x => x.Equals(story)))
@@ -28,5 +30,7 @@ namespace Given.Common
         {
             return _stories;
         }
+
+        internal TestStateManager CurrentTest { get; set; }
     }
 }
