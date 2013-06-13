@@ -9,6 +9,11 @@ namespace Given.Common
 
         static readonly Dictionary<string, object> TestRunContext = new Dictionary<string, object>();
 
+        public static void Register(string context, given given)
+        {
+            Contexts.Add(context, given);
+        }
+
         public static void Register<T1>(string context, given<T1> given)
         {
             Contexts.Add(context, given);
@@ -34,6 +39,21 @@ namespace Given.Common
         public static void Register<T1, T2, T3, T4, T5>(string context, given<T1, T2, T3, T4, T5> given)
         {
             Contexts.Add(context, given);
+        }
+
+        public static void Given(string context)
+        {
+            var currentTest = TestRunManager.CurrentTestRun.CurrentTest;
+            var key = currentTest.GetHashCode() + context;
+
+            if (TestRunContext.ContainsKey(key)) return;
+
+            var given = ((given)Contexts[context]);
+            currentTest.AddGiven(context, given);
+                
+            given.Invoke();
+                
+            TestRunContext.Add(key, null);
         }
 
         public static Lazy<T1> Given<T1>(string context)
@@ -123,7 +143,7 @@ namespace Given.Common
                                                            TestRunContext.Add(key, ((given<T1>)Contexts[context]).Invoke());
                                                        }
 
-                                                       return (Tuple<T1, T2, T3, T4, T5>) TestRunContext[key];
+                                                       return (Tuple<T1, T2, T3, T4, T5>)TestRunContext[key];
                                                    });
         }
     }
