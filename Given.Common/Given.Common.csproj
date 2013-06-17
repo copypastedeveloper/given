@@ -41,6 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Catch.cs" />
+    <Compile Include="CleanupHelper.cs" />
+    <Compile Include="ContextDictionary.cs" />
     <Compile Include="IContextProvider.cs" />
     <Compile Include="DefaultReportConfiguration.cs" />
     <Compile Include="DefaultTestRunnerConfiguration.cs" />
@@ -59,6 +61,8 @@
     <Compile Include="ITestRunnerConfiguration.cs" />
     <Compile Include="ITestResultProcessor.cs" />
     <Compile Include="Context.cs" />
+    <Compile Include="Levenshtein.cs" />
+    <Compile Include="SetupHelper.cs" />
     <Compile Include="Story.cs" />
     <Compile Include="StoryAttribute.cs" />
     <Compile Include="Text.cs" />

@@ -58,6 +58,12 @@ namespace Given.MSTest
             _testStateManager.SetThenState(TestContext.TestName, state, Message ?? string.Empty);
         }
 
+        [ClassCleanup]
+        public static void Cleanup()
+        {
+            TestRunManager.CurrentTestRun.CurrentTest.Cleanup();
+        }
+
         protected void then(Action action)
         {
             try

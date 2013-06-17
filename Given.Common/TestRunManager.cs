@@ -12,12 +12,28 @@ namespace Given.Common
         static readonly Type ReportConfiguration;
 
         public static BindingFlags FieldsToRetrieve = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance;
+        static Dictionary<string, Dictionary<string, Delegate>> _transientGivens;
 
         public static ITestRunnerConfiguration TestRunConfiguration { get; private set; }
 
         public static TestRun CurrentTestRun
         {
             get { return _testRun ?? (_testRun = new TestRun()); }
+        }
+        
+        public static Dictionary<string, Dictionary<string, Delegate>> TransientGivens
+        {
+            get { return _transientGivens ?? (_transientGivens = new Dictionary<string,Dictionary<string, Delegate>>()); }
+        }
+
+        public static void AddTransientGiven(string testName, string context, Delegate given)
+        {
+            if (!TransientGivens.ContainsKey(testName))
+            {
+                TransientGivens.Add(testName, new Dictionary<string, Delegate>());
+            }
+
+            _transientGivens[testName].Add(context, given);
         }
 
         static TestRunManager()
@@ -34,10 +50,6 @@ namespace Given.Common
                                                                     x != typeof (DefaultReportConfiguration));
 
             ReportConfiguration = ReportConfiguration ?? typeof(DefaultReportConfiguration);
-
-            //initialize context providers
-            concreteTypes.Where(x => typeof(IContextProvider).IsAssignableFrom(x)).ToList()
-                .ForEach(x => ((IContextProvider)Activator.CreateInstance(x)).SetupContext());
 
             var type = concreteTypes.FirstOrDefault(x => typeof (ITestRunnerConfiguration).IsAssignableFrom(x) && x != typeof (DefaultTestRunnerConfiguration)) ?? typeof (DefaultTestRunnerConfiguration);
 

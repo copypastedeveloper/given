@@ -9,10 +9,15 @@ namespace Given.NUnit.Example
         SoThat = "I can make money")]
     public class using_a_car_factory_to_make_a_ford : Scenario
     {
-        static Lazy<CarFactory> _carFactory = Context.Given<CarFactory>("a car factory");
+        static readonly CarFactory CarFactory = Context.Given<CarFactory>("a car factory");
+        
         static Car _car;
 
-        when building_a_ford = () => _car = _carFactory.Value.Make(CarType.Ford);
+        when building_a_ford = () =>
+                                   {
+                                       Context.Given("a void thing");
+                                       _car = CarFactory.Make(CarType.Ford);
+                                   };
 
         [then]
         public void it_should_create_a_car()

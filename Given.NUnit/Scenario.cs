@@ -74,6 +74,12 @@ namespace Given.NUnit
             }
         }
 
+        [TestFixtureTearDown]
+        public void TearDown()
+        {
+            _testStateManager.Cleanup();
+        }
+
         static object GetTestExecutionMessage()
         {
             try

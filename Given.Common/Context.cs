@@ -1,150 +1,126 @@
-﻿using System;
+﻿// ReSharper disable PossibleNullReferenceException
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 
 namespace Given.Common
 {
     public static class Context
     {
-        static readonly Dictionary<string, object> Contexts = new Dictionary<string, object>();
+        internal static readonly ContextDictionary Contexts = new ContextDictionary();
 
-        static readonly Dictionary<string, object> TestRunContext = new Dictionary<string, object>();
+        internal static readonly Dictionary<string, Delegate> CleanUps = new Dictionary<string, Delegate>();
+        internal static readonly Dictionary<string, object> TestRunContext = new Dictionary<string, object>();
 
-        public static void Register(string context, given given)
+        static Context()
         {
-            Contexts.Add(context, given);
+            var concreteTypes = AppDomain.CurrentDomain.GetAssemblies()
+                                         .SelectMany(assembly => assembly.GetTypes()).ToList()
+                                         .Where(x => x.IsAbstract == false &&
+                                                     x.IsGenericTypeDefinition == false &&
+                                                     x.IsInterface == false).ToList();
+
+            //initialize context providers
+            concreteTypes.Where(x => typeof(IContextProvider).IsAssignableFrom(x)).ToList()
+                         .ForEach(x => ((IContextProvider)Activator.CreateInstance(x)).SetupContext());
+
         }
 
-        public static void Register<T1>(string context, given<T1> given)
+        public static SetupHelper Register(string context)
         {
-            Contexts.Add(context, given);
-        }
-
-        public static void Register<T1, T2>(string context, given<T1, T2> given)
-        {
-            Contexts.Add(context, given);
-        }
-
-        public static void Register<T1, T2, T3>(string context, given<T1, T2, T3> given)
-        {
-            Contexts.Add(context, given);
-        }
-
-
-        public static void Register<T1, T2, T3, T4>(string context, given<T1, T2, T3, T4> given)
-        {
-            Contexts.Add(context, given);
-        }
-
-
-        public static void Register<T1, T2, T3, T4, T5>(string context, given<T1, T2, T3, T4, T5> given)
-        {
-            Contexts.Add(context, given);
+            return new SetupHelper(context);
         }
 
         public static void Given(string context)
         {
-            var currentTest = TestRunManager.CurrentTestRun.CurrentTest;
-            var key = currentTest.GetHashCode() + context;
+            var currentTest = new StackFrame(1).GetMethod().DeclaringType.Name;
+            var key = currentTest + context;
 
             if (TestRunContext.ContainsKey(key)) return;
 
             var given = ((given)Contexts[context]);
-            currentTest.AddGiven(context, given);
-                
+            TestRunManager.AddTransientGiven(currentTest, context, given);
+
             given.Invoke();
-                
+
             TestRunContext.Add(key, null);
         }
 
-        public static Lazy<T1> Given<T1>(string context)
+        public static T1 Given<T1>(string context)
         {
+            var currentTest = new StackFrame(1).GetMethod().DeclaringType.Name;
+            var key = currentTest + context;
 
-            return new Lazy<T1>(() =>
-                                    {
-                                        var currentTest = TestRunManager.CurrentTestRun.CurrentTest;
-                                        var key = currentTest.GetHashCode() + context;
+            if (!TestRunContext.ContainsKey(key))
+            {
+                var given = ((given<T1>)Contexts[context]);
+                TestRunManager.AddTransientGiven(currentTest, context, given);
+                TestRunContext.Add(key, ((given<T1>)Contexts[context]).Invoke());
+            }
 
-                                        if (!TestRunContext.ContainsKey(key))
-                                        {
-                                            var given = ((given<T1>)Contexts[context]);
-                                            currentTest.AddGiven(context, given);
-                                            TestRunContext.Add(key, ((given<T1>)Contexts[context]).Invoke());
-                                        }
-
-                                        return (T1)TestRunContext[key];
-                                    });
+            return (T1)TestRunContext[key];
         }
 
-        public static Lazy<Tuple<T1, T2>> Given<T1, T2>(string context)
+        public static Tuple<T1, T2> Given<T1, T2>(string context)
         {
-            return new Lazy<Tuple<T1, T2>>(() =>
-                                               {
-                                                   var currentTest = TestRunManager.CurrentTestRun.CurrentTest;
-                                                   var key = currentTest.GetHashCode() + context;
+            var currentTest = new StackFrame(1).GetMethod().DeclaringType.Name;
+            var key = currentTest + context;
 
-                                                   if (!TestRunContext.ContainsKey(key))
-                                                   {
-                                                       var given = ((given<T1, T2>)Contexts[context]);
-                                                       currentTest.AddGiven(context, given);
-                                                       TestRunContext.Add(key, ((given<T1>)Contexts[context]).Invoke());
-                                                   }
+            if (!TestRunContext.ContainsKey(key))
+            {
+                var given = ((given<T1, T2>)Contexts[context]);
+                TestRunManager.AddTransientGiven(currentTest, context, given);
+                TestRunContext.Add(key, ((given<T1, T2>)Contexts[context]).Invoke());
+            }
 
-                                                   return (Tuple<T1, T2>)TestRunContext[key];
-                                               });
+            return (Tuple<T1, T2>)TestRunContext[key];
         }
 
-        public static Lazy<Tuple<T1, T2, T3>> Given<T1, T2, T3>(string context)
+        public static Tuple<T1, T2, T3> Given<T1, T2, T3>(string context)
         {
-            return new Lazy<Tuple<T1, T2, T3>>(() =>
-                                                   {
-                                                       var currentTest = TestRunManager.CurrentTestRun.CurrentTest;
-                                                       var key = currentTest.GetHashCode() + context;
+            var currentTest = new StackFrame(1).GetMethod().DeclaringType.Name;
+            var key = currentTest + context;
 
-                                                       if (!TestRunContext.ContainsKey(key))
-                                                       {
-                                                           var given = ((given<T1, T2, T3>)Contexts[context]);
-                                                           currentTest.AddGiven(context, given);
-                                                           TestRunContext.Add(key, ((given<T1>)Contexts[context]).Invoke());
-                                                       }
+            if (!TestRunContext.ContainsKey(key))
+            {
+                var given = ((given<T1, T2, T3>)Contexts[context]);
+                TestRunManager.AddTransientGiven(currentTest, context, given);
+                TestRunContext.Add(key, ((given<T1, T2, T3>)Contexts[context]).Invoke());
+            }
 
-                                                       return (Tuple<T1, T2, T3>)TestRunContext[key];
-                                                   });
+            return (Tuple<T1, T2, T3>)TestRunContext[key];
         }
 
-        public static Lazy<Tuple<T1, T2, T3, T4>> Given<T1, T2, T3, T4>(string context)
+        public static Tuple<T1, T2, T3, T4> Given<T1, T2, T3, T4>(string context)
         {
-            return new Lazy<Tuple<T1, T2, T3, T4>>(() =>
-                                                   {
-                                                       var currentTest = TestRunManager.CurrentTestRun.CurrentTest;
-                                                       var key = currentTest.GetHashCode() + context;
+            var currentTest = new StackFrame(1).GetMethod().DeclaringType.Name;
 
-                                                       if (!TestRunContext.ContainsKey(key))
-                                                       {
-                                                           var given = ((given<T1, T2, T3, T4>)Contexts[context]);
-                                                           currentTest.AddGiven(context, given);
-                                                           TestRunContext.Add(key, ((given<T1>)Contexts[context]).Invoke());
-                                                       }
+            var key = currentTest + context;
 
-                                                       return (Tuple<T1, T2, T3, T4>)TestRunContext[key];
-                                                   });
+            if (!TestRunContext.ContainsKey(key))
+            {
+                var given = ((given<T1, T2, T3, T4>)Contexts[context]);
+                TestRunManager.AddTransientGiven(currentTest, context, given);
+                TestRunContext.Add(key, ((given<T1, T2, T3, T4>)Contexts[context]).Invoke());
+            }
+
+            return (Tuple<T1, T2, T3, T4>)TestRunContext[key];
         }
 
-        public static Lazy<Tuple<T1, T2, T3, T4, T5>> Given<T1, T2, T3, T4, T5>(string context)
+        public static Tuple<T1, T2, T3, T4, T5> Given<T1, T2, T3, T4, T5>(string context)
         {
-            return new Lazy<Tuple<T1, T2, T3, T4, T5>>(() =>
-                                                   {
-                                                       var currentTest = TestRunManager.CurrentTestRun.CurrentTest;
-                                                       var key = currentTest.GetHashCode() + context;
+            var currentTest = new StackFrame(1).GetMethod().DeclaringType.Name;
+            var key = currentTest + context;
 
-                                                       if (!TestRunContext.ContainsKey(key))
-                                                       {
-                                                           var given = ((given<T1, T2, T3, T4, T5>)Contexts[context]);
-                                                           currentTest.AddGiven(context, given);
-                                                           TestRunContext.Add(key, ((given<T1>)Contexts[context]).Invoke());
-                                                       }
+            if (!TestRunContext.ContainsKey(key))
+            {
+                var given = ((given<T1, T2, T3, T4, T5>)Contexts[context]);
+                TestRunManager.AddTransientGiven(currentTest, context, given);
+                TestRunContext.Add(key, ((given<T1, T2, T3, T4, T5>)Contexts[context]).Invoke());
+            }
 
-                                                       return (Tuple<T1, T2, T3, T4, T5>)TestRunContext[key];
-                                                   });
+            return (Tuple<T1, T2, T3, T4, T5>)TestRunContext[key];
         }
     }
 }
