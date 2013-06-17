@@ -52,7 +52,7 @@ namespace Given.Common
                 {
                     if (!Context.CleanUps.ContainsKey(given.Text)) continue;
 
-                    var result = given.Method.DynamicInvoke();
+                    var result = Context.TestRunContext[TestType.Name + given.Text];
 
                     //if it doesn't take arguments just execute it
                     if (!Context.CleanUps[given.Text].Method.GetParameters().Any())
