@@ -10,7 +10,14 @@ namespace Given.NUnit.Example
     public class using_a_car_factory_to_make_a_ford : Scenario
     {
         static readonly CarFactory CarFactory = Context.Given<CarFactory>("a car factory");
-        
+        static readonly Tuple<CarFactory,Car> stuff = Context.Given<CarFactory,Car>("a car factory and a ford");
+        static readonly Tuple<CarFactory, CarFactory> stuff2 = Context.Given<CarFactory, CarFactory>("a couple of car factories");
+
+        public using_a_car_factory_to_make_a_ford()
+        {
+            Context.Given("a car factory and a ford");
+        }
+
         static Car _car;
 
         when building_a_ford = () =>

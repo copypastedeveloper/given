@@ -32,19 +32,21 @@ namespace Given.Common
             return new SetupHelper(context);
         }
 
-        public static void Given(string context)
+        public static GivenResult Given(string context)
         {
             var currentTest = new StackFrame(1).GetMethod().DeclaringType.Name;
             var key = currentTest + context;
 
-            if (TestRunContext.ContainsKey(key)) return;
+            if (TestRunContext.ContainsKey(key)) return new GivenResult {Executed = false};
 
-            var given = ((given)Contexts[context]);
-            TestRunManager.AddTransientGiven(currentTest, context, given);
+            TestRunManager.AddTransientGiven(currentTest, context, Contexts[context]);
 
+            dynamic given = Contexts[context];
             given.Invoke();
 
             TestRunContext.Add(key, null);
+
+            return new GivenResult {Executed = true};
         }
 
         public static T1 Given<T1>(string context)

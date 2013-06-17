@@ -84,7 +84,7 @@ namespace Given.Common
                         continue;
                     }
 
-                    Console.WriteLine("Found cleanup but didn't know how to call it");
+                    Console.WriteLine("Found cleanup for {0} but didn't know how to call it", given.Text);
                 }
             }
             catch

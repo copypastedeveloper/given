@@ -31,6 +31,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
@@ -43,6 +44,7 @@
     <Compile Include="Catch.cs" />
     <Compile Include="CleanupHelper.cs" />
     <Compile Include="ContextDictionary.cs" />
+    <Compile Include="GivenResult.cs" />
     <Compile Include="IContextProvider.cs" />
     <Compile Include="DefaultReportConfiguration.cs" />
     <Compile Include="DefaultTestRunnerConfiguration.cs" />
