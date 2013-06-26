@@ -121,6 +121,6 @@ namespace Given.Common
 
                 currentPrefix = Text.And;
             }
-        }
+        }'
     }
 }
