@@ -41,10 +41,10 @@ namespace Given.Common
 
             TestRunManager.AddTransientGiven(currentTest, context, Contexts[context]);
 
-            dynamic given = Contexts[context];
-            given.Invoke();
+            var given = Contexts[context];
+            var result = given.DynamicInvoke();
 
-            TestRunContext.Add(key, null);
+            TestRunContext.Add(key, result);
 
             return new GivenResult {Executed = true};
         }

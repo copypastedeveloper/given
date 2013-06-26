@@ -12,6 +12,7 @@ namespace Given.NUnit.Example
         static readonly CarFactory CarFactory = Context.Given<CarFactory>("a car factory");
         static readonly Tuple<CarFactory,Car> stuff = Context.Given<CarFactory,Car>("a car factory and a ford");
         static readonly Tuple<CarFactory, CarFactory> stuff2 = Context.Given<CarFactory, CarFactory>("a couple of car factories");
+        static readonly Tuple<CarFactory, Car,Car> stuff3 = Context.Given<CarFactory, Car,Car>("a car factory and a ford and a toyota");
 
         public using_a_car_factory_to_make_a_ford()
         {

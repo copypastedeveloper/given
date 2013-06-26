@@ -23,6 +23,10 @@ namespace Given.NUnit.Example
             Context.Register("a car factory and a ford")
                    .As<CarFactory,Car>(() => new Tuple<CarFactory,Car>(new CarFactory(), new CarFactory().Make(CarType.Ford)))
                    .WithCleanup((factory, ford) => Console.WriteLine("Blew up the factory and the {0}!",ford.Type));
+
+            Context.Register("a car factory and a ford and a toyota")
+                   .As<CarFactory, Car, Car>(() => new Tuple<CarFactory, Car, Car>(new CarFactory(), new CarFactory().Make(CarType.Ford), new Car { Type = CarType.Toyota }))
+                   .WithCleanup((factory, ford, toyota) => Console.WriteLine("Blew up the factory and the {0} and the {1}!", ford.Type, toyota.Type));
         }
     }
 }
