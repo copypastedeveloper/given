@@ -56,9 +56,9 @@ namespace Given.Common
 
             if (!TestRunContext.ContainsKey(key))
             {
-                var given = ((given<T1>)Contexts[context]);
+                var given = ((context<T1>)Contexts[context]);
                 TestRunManager.AddTransientGiven(currentTest, context, given);
-                TestRunContext.Add(key, ((given<T1>)Contexts[context]).Invoke());
+                TestRunContext.Add(key, ((context<T1>)Contexts[context]).Invoke());
             }
 
             return (T1)TestRunContext[key];
@@ -71,9 +71,9 @@ namespace Given.Common
 
             if (!TestRunContext.ContainsKey(key))
             {
-                var given = ((given<T1, T2>)Contexts[context]);
+                var given = ((context<T1, T2>)Contexts[context]);
                 TestRunManager.AddTransientGiven(currentTest, context, given);
-                TestRunContext.Add(key, ((given<T1, T2>)Contexts[context]).Invoke());
+                TestRunContext.Add(key, ((context<T1, T2>)Contexts[context]).Invoke());
             }
 
             return (Tuple<T1, T2>)TestRunContext[key];
@@ -86,9 +86,9 @@ namespace Given.Common
 
             if (!TestRunContext.ContainsKey(key))
             {
-                var given = ((given<T1, T2, T3>)Contexts[context]);
+                var given = ((context<T1, T2, T3>)Contexts[context]);
                 TestRunManager.AddTransientGiven(currentTest, context, given);
-                TestRunContext.Add(key, ((given<T1, T2, T3>)Contexts[context]).Invoke());
+                TestRunContext.Add(key, ((context<T1, T2, T3>)Contexts[context]).Invoke());
             }
 
             return (Tuple<T1, T2, T3>)TestRunContext[key];
@@ -102,9 +102,9 @@ namespace Given.Common
 
             if (!TestRunContext.ContainsKey(key))
             {
-                var given = ((given<T1, T2, T3, T4>)Contexts[context]);
+                var given = ((context<T1, T2, T3, T4>)Contexts[context]);
                 TestRunManager.AddTransientGiven(currentTest, context, given);
-                TestRunContext.Add(key, ((given<T1, T2, T3, T4>)Contexts[context]).Invoke());
+                TestRunContext.Add(key, ((context<T1, T2, T3, T4>)Contexts[context]).Invoke());
             }
 
             return (Tuple<T1, T2, T3, T4>)TestRunContext[key];
@@ -117,9 +117,9 @@ namespace Given.Common
 
             if (!TestRunContext.ContainsKey(key))
             {
-                var given = ((given<T1, T2, T3, T4, T5>)Contexts[context]);
+                var given = ((context<T1, T2, T3, T4, T5>)Contexts[context]);
                 TestRunManager.AddTransientGiven(currentTest, context, given);
-                TestRunContext.Add(key, ((given<T1, T2, T3, T4, T5>)Contexts[context]).Invoke());
+                TestRunContext.Add(key, ((context<T1, T2, T3, T4, T5>)Contexts[context]).Invoke());
             }
 
             return (Tuple<T1, T2, T3, T4, T5>)TestRunContext[key];

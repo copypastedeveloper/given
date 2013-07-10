@@ -1,4 +1,5 @@
-﻿using Given.Common;
+﻿using System;
+using Given.Common;
 using Given.Example;
 
 namespace Given.NUnit.Example
@@ -11,10 +12,12 @@ namespace Given.NUnit.Example
         static CarFactory _factory;
         static Car _car;
 
+        before testing = () => Console.WriteLine("this is executed before the given");
+
         given a_car_factory = () =>
-                                  {
-                                      _factory = new CarFactory();
-                                  };
+        {
+            _factory = new CarFactory();
+        };
 
         when building_a_toyota = () => _car = _factory.Make(CarType.Toyota);
 
@@ -35,5 +38,7 @@ namespace Given.NUnit.Example
         {
             _car.Type.ShouldEqual(CarType.Ford);
         }
+
+        after test_completion = () => Console.WriteLine("executed the tear down");
     }
 }

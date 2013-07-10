@@ -20,10 +20,8 @@ namespace Given.MSTest
         protected Scenario()
         {
             _testStateManager = new TestStateManager(this);            
-            _initializer = new TestInitializer(this);
-            _initializer.ProcessGiven(_testStateManager);
-            _initializer.ProcessWhen(_testStateManager);
-            _initializer.ProcessThen(_testStateManager);
+            _initializer = new TestInitializer(this,_testStateManager);
+            _initializer.ProcessDelegates();
         }
 
         [TestInitialize]

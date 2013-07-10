@@ -9,12 +9,14 @@ namespace Given.Common
     {
         readonly Type _typeToProcess;
         readonly object _testClass;
+        readonly TestStateManager _testStateManager;
         List<FieldInfo> _fields;
 
-        public TestInitializer(object testClass)
+        public TestInitializer(object testClass, TestStateManager testStateManager)
         {
             _typeToProcess = testClass.GetType();
             _testClass = testClass;
+            _testStateManager = testStateManager;
             DetermineFields();
         }
 
@@ -27,7 +29,27 @@ namespace Given.Common
                 _fields.InsertRange(0, currentType.GetFields(TestRunManager.FieldsToRetrieve));
         }
 
-        public void ProcessGiven(ITestStateManager testStateManager)
+        public void ProcessDelegates()
+        {
+            ProcessBefore();
+            ProcessGiven();
+            ProcessWhen();
+            ProcessThen();
+            ProcessAfter();
+        }
+
+        void ProcessBefore()
+        {
+            //execute all before items found.
+            _fields.Where(fieldInfo => fieldInfo.FieldType == typeof(before))
+                   .Select(fieldInfo => new { Delegate = (before)fieldInfo.GetValue(_testClass), Field = fieldInfo }).ToList()
+                   .ForEach(x =>
+                   {
+                       x.Delegate.Invoke();
+                   });
+        }
+
+        void ProcessGiven()
         {
             //execute all given items found.
             _fields.Where(fieldInfo => fieldInfo.FieldType == typeof(given))
@@ -35,29 +57,36 @@ namespace Given.Common
                    .ForEach(x =>
                    {
                        x.Delegate.Invoke();
-                       testStateManager.AddGiven(x.Field.Name, x.Delegate);
+                       _testStateManager.AddGiven(x.Field.Name, x.Delegate);
                    });
         }
 
-        public void ProcessWhen(ITestStateManager testStateManager)
+        void ProcessWhen()
         {
-            //execute all cause items found.
-            _fields.Where(fieldInfo => fieldInfo.FieldType == typeof (when))
-                   .Select(fieldInfo => new {Delegate = (when) fieldInfo.GetValue(_testClass), Field = fieldInfo}).ToList()
+            //execute all when items found.
+            _fields.Where(fieldInfo => fieldInfo.FieldType == typeof(when))
+                   .Select(fieldInfo => new { Delegate = (when)fieldInfo.GetValue(_testClass), Field = fieldInfo }).ToList()
                    .ForEach(x =>
-                                {
-                                    
-                                    x.Delegate.Invoke();
-                                    testStateManager.AddWhen(x.Field.Name,x.Delegate);
-                                });
+                   {
+
+                       x.Delegate.Invoke();
+                       _testStateManager.AddWhen(x.Field.Name, x.Delegate);
+                   });
         }
 
-        public void ProcessThen(ITestStateManager testStateManager)
+        void ProcessThen()
         {
             _typeToProcess
                 .GetMethods()
                 .Where(TestRunManager.TestRunConfiguration.ThenIdentificationMethod).ToList()
-                .ForEach(x => testStateManager.AddThen(x.Name, x));
+                .ForEach(x => _testStateManager.AddThen(x.Name, x));
+        }
+
+        void ProcessAfter()
+        {
+            _fields
+                .Where(fieldInfo => fieldInfo.FieldType == typeof(after)).ToList()
+                .ForEach(x => _testStateManager.AddTearDown((after)x.GetValue(_testClass)));
         }
     }
 }

@@ -7,18 +7,20 @@ namespace Given.Common
 {
     public class TestStateManager : ITestStateManager
     {
-
+        public readonly List<after> _teardownMethods;
         public Type TestType { get; set; }
         public PairList<Delegate, string> Givens { get; private set; }
         public PairList<Delegate, string> Whens { get; private set; }
         public PairList<MethodInfo, StatedThen> Thens { get; private set; }
-        
+
         public TestStateManager(object specification)
         {
             TestType = specification.GetType();
             Givens = new PairList<Delegate, string>();
             Whens = new PairList<Delegate, string>();
             Thens = new PairList<MethodInfo, StatedThen>();
+            _teardownMethods = new List<after>();
+
             TestRunManager.CurrentTestRun.AddTest(this, specification.GetType());
         }
 
@@ -27,7 +29,7 @@ namespace Given.Common
             Givens.Add(method, text);
         }
 
-        public void AddWhen(string text, Delegate method)
+        public void AddWhen(string text, when method)
         {
             Whens.Add(method, text);
         }
@@ -35,6 +37,11 @@ namespace Given.Common
         public void AddThen(string text, MethodInfo method)
         {
             Thens.Add(method, new StatedThen { Name = text });
+        }
+
+        public void AddTearDown(after teardownMethod)
+        {
+            _teardownMethods.Add(teardownMethod);
         }
 
         public void SetThenState(string methodName, TestState state, string message)
@@ -86,13 +93,18 @@ namespace Given.Common
 
                     Console.WriteLine("Found cleanup for {0} but didn't know how to call it", given.Text);
                 }
+
+                foreach (var teardownMethod in _teardownMethods)
+                {
+                    teardownMethod.Invoke();
+                }
             }
             catch
             {
             }
         }
 
-        public void WriteSpecification(Action<string,object[]> consoleAction = null)
+        public void WriteSpecification(Action<string, object[]> consoleAction = null)
         {
             foreach (var given in TestRunManager.TransientGivens.Where(x => x.Key == TestType.Name).SelectMany(x => x.Value))
             {
@@ -103,19 +115,19 @@ namespace Given.Common
             var currentPrefix = Text.Given;
             foreach (var pair in Givens)
             {
-                consoleAction(Text.Print, new object[] {currentPrefix, pair.Value.Replace("_", " ")});
+                consoleAction(Text.Print, new object[] { currentPrefix, pair.Value.Replace("_", " ") });
                 currentPrefix = Text.And;
             }
             currentPrefix = Text.When;
             foreach (var pair in Whens)
             {
-                consoleAction(Text.Print, new object[] {currentPrefix, pair.Value.Replace("_", " ")});
+                consoleAction(Text.Print, new object[] { currentPrefix, pair.Value.Replace("_", " ") });
                 currentPrefix = Text.And;
             }
             currentPrefix = Text.Then;
             foreach (var pair in Thens)
             {
-                consoleAction(Text.Print, new object[] {currentPrefix, pair.Value.Name.Replace("_", " ")});
+                consoleAction(Text.Print, new object[] { currentPrefix, pair.Value.Name.Replace("_", " ") });
                 if (!string.IsNullOrEmpty(pair.Value.Message))
                     consoleAction(pair.Value.Message, new object[0]);
 

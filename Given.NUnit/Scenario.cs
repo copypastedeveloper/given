@@ -16,7 +16,7 @@ namespace Given.NUnit
         public void Setup()
         {
             _testStateManager = new TestStateManager(this);
-            var initializer = new TestInitializer(this);
+            var initializer = new TestInitializer(this,_testStateManager);
 
             //todo: there needs to be a common way to ignore setup for scenarios where all tests are ignored.  this sucks.
             if (!GetType().GetMethods().Any(y => new DefaultTestRunnerConfiguration().ThenIdentificationMethod(y) &&
@@ -25,9 +25,7 @@ namespace Given.NUnit
                 return;
             }
             
-            initializer.ProcessGiven(_testStateManager);
-            initializer.ProcessWhen(_testStateManager);
-            initializer.ProcessThen(_testStateManager);
+            initializer.ProcessDelegates();
             _testStateManager.WriteSpecification();
         }
 
