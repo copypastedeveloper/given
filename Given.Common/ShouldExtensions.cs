@@ -229,7 +229,7 @@ the following items did not meet the condition: {1}",
             {
                 throw new SpecificationException(string.Format(
                     @"Should contain elements conforming to: {0}
-entire list: {1}",
+                      entire list: {1}",
                     condition,
                     list.EachToUsefulString()));
             }
@@ -574,6 +574,14 @@ entire list: {1}",
                 }
 
                 throw new SpecificationException(message);
+            }
+        }
+
+        public static void ShouldBeInTheSameOrderAs<T>(this IEnumerable<T> firstEnumerable, IEnumerable<T> secondEnumerable)
+        {
+            if (!firstEnumerable.SequenceEqual(secondEnumerable))
+            {
+                throw new SpecificationException("Expected enumerated items to be in the same order, but they were not.");
             }
         }
 
