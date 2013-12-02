@@ -9,7 +9,7 @@ namespace Given.Common
     {
         static TestRun _testRun;
         static readonly IEnumerable<Type> Processors;
-        static readonly Type ReportConfiguration;
+        internal static readonly Type ReportConfiguration;
 
         public static BindingFlags FieldsToRetrieve = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance;
         static Dictionary<string, Dictionary<string, Delegate>> _transientGivens;

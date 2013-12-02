@@ -1,6 +1,11 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+# SharpDevelop 4.3
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{4976FF78-4B46-4DF5-A83E-D637DC58194B}"
+	ProjectSection(SolutionItems) = postProject
+	EndProjectSection
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Given.Common", "Given.Common\Given.Common.csproj", "{81530FE0-14E7-40E5-805D-8BEABB50E899}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Given.NUnit", "Given.NUnit\Given.NUnit.csproj", "{7B16BD10-5BEF-4DB5-A0E7-C951378838D7}"
@@ -13,7 +18,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Given.NUnit.Example", "Give
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Given.Example", "Given.Example\Given.Example.csproj", "{BE00615B-AD00-42D2-AE8B-89A303FA7B31}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{4976FF78-4B46-4DF5-A83E-D637DC58194B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Given.Common.UnitTests", "Given.Common.UnitTests\Given.Common.UnitTests.csproj", "{3E30BF13-EBB7-4880-B06C-D0F6D6E49D02}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +50,10 @@ Global
 		{BE00615B-AD00-42D2-AE8B-89A303FA7B31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE00615B-AD00-42D2-AE8B-89A303FA7B31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE00615B-AD00-42D2-AE8B-89A303FA7B31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E30BF13-EBB7-4880-B06C-D0F6D6E49D02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E30BF13-EBB7-4880-B06C-D0F6D6E49D02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E30BF13-EBB7-4880-B06C-D0F6D6E49D02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E30BF13-EBB7-4880-B06C-D0F6D6E49D02}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

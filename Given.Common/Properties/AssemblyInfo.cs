@@ -37,3 +37,4 @@ using System.Runtime.InteropServices;
 
 [assembly: InternalsVisibleTo("Given.NUnit")]
 [assembly: InternalsVisibleTo("Given.MSTest")]
+[assembly: InternalsVisibleTo("Given.Common.UnitTests")]
