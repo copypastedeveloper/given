@@ -34,7 +34,7 @@ namespace Given.MSTest.Example
         [TestMethod]
         public void it_should_be_the_wrong_type_of_car()
         {
-            then(() => _car.Type.ShouldEqual(CarType.Ford));
+            then(() => _car.Type.ShouldNotEqual(CarType.Ford));
         }
     }
 }
