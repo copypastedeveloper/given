@@ -594,6 +594,18 @@ the following items did not meet the condition: {1}",
             return exception;
         }
 
+        public static void ShouldBeTheDefaultValue<T>(this T defaultValueObject)
+        {
+            var defaultValueForType = default(T);
+            defaultValueObject.ShouldEqual(defaultValueForType);
+        }
+
+        public static void ShouldNotBeTheDefaultValue<T>(this T defaultValueObject)
+        {
+            var defaultValueForType = default(T);
+            defaultValueObject.ShouldNotEqual(defaultValueForType);
+        }
+
         public static string EachToUsefulString<T>(this IEnumerable<T> enumerable)
         {
             var sb = new StringBuilder();
