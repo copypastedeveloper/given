@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 
 namespace Given.Common
 {
@@ -20,10 +21,10 @@ namespace Given.Common
         {
             get { return _testRun ?? (_testRun = new TestRun()); }
         }
-        
+
         public static Dictionary<string, Dictionary<string, Delegate>> TransientGivens
         {
-            get { return _transientGivens ?? (_transientGivens = new Dictionary<string,Dictionary<string, Delegate>>()); }
+            get { return _transientGivens ?? (_transientGivens = new Dictionary<string, Dictionary<string, Delegate>>()); }
         }
 
         public static void AddTransientGiven(string testName, string context, Delegate given)
@@ -38,33 +39,29 @@ namespace Given.Common
 
         static TestRunManager()
         {
-            var concreteTypes = AppDomain.CurrentDomain.GetAssemblies()
-                                         .SelectMany(assembly => assembly.GetTypes()).ToList()
-                                         .Where(x => x.IsAbstract == false &&
-                                                     x.IsGenericTypeDefinition == false &&
-                                                     x.IsInterface == false).ToList();
-            
+            List<Type> concreteTypes = ReflectionHelper.ConcreteTypes();
+
             Processors = concreteTypes.Where(x => typeof(ITestResultProcessor).IsAssignableFrom(x));
 
-            ReportConfiguration = concreteTypes.FirstOrDefault(x => typeof (IReportConfiguration).IsAssignableFrom(x) &&
-                                                                    x != typeof (DefaultReportConfiguration));
+            ReportConfiguration = concreteTypes.FirstOrDefault(x => typeof(IReportConfiguration).IsAssignableFrom(x) &&
+                                                                    x != typeof(DefaultReportConfiguration));
 
             ReportConfiguration = ReportConfiguration ?? typeof(DefaultReportConfiguration);
 
-            var type = concreteTypes.FirstOrDefault(x => typeof (ITestRunnerConfiguration).IsAssignableFrom(x) && x != typeof (DefaultTestRunnerConfiguration)) ?? typeof (DefaultTestRunnerConfiguration);
+            var type = concreteTypes.FirstOrDefault(x => typeof(ITestRunnerConfiguration).IsAssignableFrom(x) && x != typeof(DefaultTestRunnerConfiguration)) ?? typeof(DefaultTestRunnerConfiguration);
 
             TestRunConfiguration = (ITestRunnerConfiguration)Activator.CreateInstance(type);
-            
+
             AppDomain.CurrentDomain.DomainUnload += Unload;
         }
 
         static void Unload(object sender, EventArgs e)
-        {   
+        {
             var testRunResults = CurrentTestRun.GetStories().ToList();
-            var config = Activator.CreateInstance(ReportConfiguration);            
+            var config = Activator.CreateInstance(ReportConfiguration);
             foreach (var processor in Processors)
             {
-                ((ITestResultProcessor) Activator.CreateInstance(processor,new[] {config})).Process(testRunResults);
+                ((ITestResultProcessor)Activator.CreateInstance(processor, new[] { config })).Process(testRunResults);
             }
         }
     }

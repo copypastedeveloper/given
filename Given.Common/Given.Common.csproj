@@ -64,6 +64,7 @@
     <Compile Include="ITestResultProcessor.cs" />
     <Compile Include="Context.cs" />
     <Compile Include="Levenshtein.cs" />
+    <Compile Include="ReflectionHelper.cs" />
     <Compile Include="SetupHelper.cs" />
     <Compile Include="Story.cs" />
     <Compile Include="StoryAttribute.cs" />
