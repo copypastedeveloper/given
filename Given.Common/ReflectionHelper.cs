@@ -10,29 +10,38 @@ namespace Given.Common
     {
         internal static List<Type> ConcreteTypes()
         {
-            List<Type> concreteTypes;
-            try
+            List<Type> concreteTypes = new List<Type>();
+
+            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
-                concreteTypes = AppDomain.CurrentDomain.GetAssemblies()
-                    .SelectMany(assembly => assembly.GetTypes()).ToList()
-                    .Where(x => x.IsAbstract == false &&
-                                x.IsGenericTypeDefinition == false &&
-                                x.IsInterface == false &&
-                                x.IsPublic).ToList();
-            }
-            catch (ReflectionTypeLoadException e)
-            {
-                //http://stackoverflow.com/questions/7889228/how-to-prevent-reflectiontypeloadexception-when-calling-assembly-gettypes
-                StringBuilder message = new StringBuilder();
-                message.AppendLine("LoaderException messages:");
-                foreach (Exception loaderException in e.LoaderExceptions)
+                Type[] types;
+                try
                 {
-                    if (loaderException == null) continue;
-                    message.AppendLine(loaderException.Message);
+                    types = assembly.GetTypes();
                 }
-                throw new Exception(message.ToString());
+                catch (ReflectionTypeLoadException e)
+                {
+                    Console.WriteLine(FormatLoaderExceptionMessage(assembly, e));
+                    continue;
+                }
+
+                concreteTypes.AddRange(types.Where(x => !x.IsAbstract && !x.IsGenericTypeDefinition && !x.IsInterface && x.IsPublic));
             }
+
             return concreteTypes;
+        }
+
+        static string FormatLoaderExceptionMessage(Assembly assembly, ReflectionTypeLoadException e)
+        {
+            //http://stackoverflow.com/questions/7889228/how-to-prevent-reflectiontypeloadexception-when-calling-assembly-gettypes
+            StringBuilder message = new StringBuilder();
+            message.AppendLine(string.Format("{0} assembly LoaderException messages:", assembly.FullName));
+            foreach (Exception loaderException in e.LoaderExceptions)
+            {
+                if (loaderException == null) continue;
+                message.AppendLine(loaderException.Message);
+            }
+            return message.ToString();
         }
     }
 }
