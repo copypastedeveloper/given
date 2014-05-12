@@ -15,11 +15,7 @@ namespace Given.Common
 
         static Context()
         {
-            var concreteTypes = AppDomain.CurrentDomain.GetAssemblies()
-                                         .SelectMany(assembly => assembly.GetTypes()).ToList()
-                                         .Where(x => x.IsAbstract == false &&
-                                                     x.IsGenericTypeDefinition == false &&
-                                                     x.IsInterface == false).ToList();
+            var concreteTypes = ReflectionHelper.ConcreteTypes();
 
             //initialize context providers
             concreteTypes.Where(x => typeof(IContextProvider).IsAssignableFrom(x)).ToList()
