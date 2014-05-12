@@ -14,18 +14,15 @@ namespace Given.Common
 
             foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
-                Type[] types;
                 try
                 {
-                    types = assembly.GetTypes();
+                    Type[] types = assembly.GetTypes(); // This line can throw ReflectionTypeLoadException.
+                    concreteTypes.AddRange(types.Where(x => !x.IsAbstract && !x.IsGenericTypeDefinition && !x.IsInterface && x.IsPublic));
                 }
                 catch (ReflectionTypeLoadException e)
                 {
                     Console.WriteLine(FormatLoaderExceptionMessage(assembly, e));
-                    continue;
                 }
-
-                concreteTypes.AddRange(types.Where(x => !x.IsAbstract && !x.IsGenericTypeDefinition && !x.IsInterface && x.IsPublic));
             }
 
             return concreteTypes;
