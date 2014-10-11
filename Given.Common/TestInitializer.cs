@@ -29,39 +29,39 @@ namespace Given.Common
                 _fields.InsertRange(0, currentType.GetFields(TestRunManager.FieldsToRetrieve));
         }
 
-        public void ProcessDelegates()
+        public void ProcessDelegates(bool invoke = true)
         {
-            ProcessBefore();
-            ProcessGiven();
-            ProcessWhen();
-            ProcessThen();
-            ProcessAfter();
+            ProcessBefore(invoke);
+            ProcessGiven(invoke);
+            ProcessWhen(invoke);
+            ProcessThen(invoke);
+            ProcessAfter(invoke);
         }
 
-        void ProcessBefore()
+        void ProcessBefore(bool invoke)
         {
             //execute all before items found.
             _fields.Where(fieldInfo => fieldInfo.FieldType == typeof(before))
                    .Select(fieldInfo => new { Delegate = (before)fieldInfo.GetValue(_testClass), Field = fieldInfo }).ToList()
                    .ForEach(x =>
                    {
-                       x.Delegate.Invoke();
+                       if (invoke) x.Delegate.Invoke();
                    });
         }
 
-        void ProcessGiven()
+        void ProcessGiven(bool invoke)
         {
             //execute all given items found.
             _fields.Where(fieldInfo => fieldInfo.FieldType == typeof(given))
                    .Select(fieldInfo => new { Delegate = (given)fieldInfo.GetValue(_testClass), Field = fieldInfo }).ToList()
                    .ForEach(x =>
                    {
-                       x.Delegate.Invoke();
+                       if (invoke) x.Delegate.Invoke();
                        _testStateManager.AddGiven(x.Field.Name, x.Delegate);
                    });
         }
 
-        void ProcessWhen()
+        void ProcessWhen(bool invoke)
         {
             //execute all when items found.
             _fields.Where(fieldInfo => fieldInfo.FieldType == typeof(when))
@@ -69,12 +69,12 @@ namespace Given.Common
                    .ForEach(x =>
                    {
 
-                       x.Delegate.Invoke();
+                       if (invoke) x.Delegate.Invoke();
                        _testStateManager.AddWhen(x.Field.Name, x.Delegate);
                    });
         }
 
-        void ProcessThen()
+        void ProcessThen(bool invoke)
         {
             _typeToProcess
                 .GetMethods()
@@ -82,7 +82,7 @@ namespace Given.Common
                 .ForEach(x => _testStateManager.AddThen(x.Name, x));
         }
 
-        void ProcessAfter()
+        void ProcessAfter(bool invoke)
         {
             _fields
                 .Where(fieldInfo => fieldInfo.FieldType == typeof(after)).ToList()

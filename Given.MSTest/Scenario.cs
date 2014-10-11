@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using Given.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -9,7 +11,7 @@ namespace Given.MSTest
     {
         readonly TestInitializer _initializer;
         readonly TestStateManager _testStateManager;
-
+        static readonly ConcurrentDictionary<Type,bool> AlreadyRanDelegates = new ConcurrentDictionary<Type, bool>();
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
@@ -19,15 +21,20 @@ namespace Given.MSTest
 
         protected Scenario()
         {
-            _testStateManager = new TestStateManager(this);            
-            _initializer = new TestInitializer(this,_testStateManager);
-            _initializer.ProcessDelegates();
+            _testStateManager = new TestStateManager(this);
+            _initializer = new TestInitializer(this, _testStateManager);
+
+            bool alreadyRan;
+            var addToDictionary = !AlreadyRanDelegates.TryGetValue(GetType(), out alreadyRan);
+
+            _initializer.ProcessDelegates(invoke:!alreadyRan);
+            if (addToDictionary) AlreadyRanDelegates.TryAdd(GetType(), true);
         }
 
         [TestInitialize]
         public void Setup()
         {
-            _testStateManager.WriteSpecification(TestContext.WriteLine);            
+            _testStateManager.WriteSpecification(TestContext.WriteLine);
         }
 
         [TestCleanup]
