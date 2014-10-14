@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using Given.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -9,9 +10,8 @@ namespace Given.MSTest
     [TestClass]
     public abstract class Scenario
     {
-        readonly TestInitializer _initializer;
         readonly TestStateManager _testStateManager;
-        static readonly ConcurrentDictionary<Type,bool> AlreadyRanDelegates = new ConcurrentDictionary<Type, bool>();
+        static readonly ConcurrentDictionary<Type, TestStateManager> AlreadyRanDelegates = new ConcurrentDictionary<Type, TestStateManager>();
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
@@ -21,14 +21,16 @@ namespace Given.MSTest
 
         protected Scenario()
         {
-            _testStateManager = new TestStateManager(this);
-            _initializer = new TestInitializer(this, _testStateManager);
+            var firstRun = !AlreadyRanDelegates.TryGetValue(GetType(), out _testStateManager);
 
-            bool alreadyRan;
-            var addToDictionary = !AlreadyRanDelegates.TryGetValue(GetType(), out alreadyRan);
+            if (firstRun)
+            {
+                _testStateManager = new TestStateManager(this);
+                var initializer = new TestInitializer(this, _testStateManager);
+                initializer.ProcessDelegates();
 
-            _initializer.ProcessDelegates(invoke:!alreadyRan);
-            if (addToDictionary) AlreadyRanDelegates.TryAdd(GetType(), true);
+                AlreadyRanDelegates.TryAdd(GetType(), _testStateManager);
+            }
         }
 
         [TestInitialize]
@@ -41,7 +43,6 @@ namespace Given.MSTest
         public void RecordState()
         {
             TestState state;
-
             switch (TestContext.CurrentTestOutcome)
             {
                 case UnitTestOutcome.Error:
@@ -61,12 +62,11 @@ namespace Given.MSTest
             }
 
             _testStateManager.SetThenState(TestContext.TestName, state, Message ?? string.Empty);
-        }
 
-        [ClassCleanup]
-        public static void Cleanup()
-        {
-            TestRunManager.CurrentTestRun.CurrentTest.Cleanup();
+            if (_testStateManager.Thens.All(x => x.Value.State !=TestState.Unknown))
+            {
+                _testStateManager.Cleanup();
+            }
         }
 
         protected void then(Action action)
