@@ -45,7 +45,7 @@
 					<# foreach (var story in TestResults) 
 						{ #>
 						<div class="story well">
-							<h5><#=story.GetDescription("{0}<br />{1}<br />{2}.")#></h3>
+							<h5><#=story.GetDescription("{0}<br />{1}<br />{2}.")#></h5>
 						<# foreach (var result in story.Tests) 
 							{ #>
 							<ul class="well scenario"><h6><#=System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(result.Type.Name.ToString().Replace("_"," "))#></h6>
