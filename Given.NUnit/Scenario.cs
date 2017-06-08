@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using Given.Common;
 using NUnit.Framework;
+using NUnit.Framework.Interfaces;
 using TestState = Given.Common.TestState;
 
 namespace Given.NUnit
@@ -12,7 +13,7 @@ namespace Given.NUnit
     {
         TestStateManager _testStateManager;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void Setup()
         {
             _testStateManager = new TestStateManager(this);
@@ -35,44 +36,37 @@ namespace Given.NUnit
             var context = TestContext.CurrentContext;
             TestState state;
 
-            TestStatus status;
+            ResultState status;
             try
             {
-                status = context.Result.Status;
+                status = context.Result.Outcome;
             }
             catch (Exception)
             {
-                status = TestStatus.Inconclusive;
+                status = ResultState.Inconclusive;
             }
 
-            switch (status)
-            {
-                case TestStatus.Failed:
-                    state = TestState.Failed;
-                    break;
-                case TestStatus.Passed:
-                    state = TestState.Passed;
-                    break;
-                case TestStatus.Skipped:
-                    state = TestState.Ignored;
-                    break;
-                default:
-                    state = TestState.Unknown;
-                    break;
-            }
+            if (status.Equals(ResultState.Failure))
+                state = TestState.Failed;
+            else if (status.Equals(ResultState.Success))
+                state = TestState.Passed;
+            else if (status.Equals(ResultState.Skipped))
+                state = TestState.Ignored;
+            else
+                state = TestState.Unknown;
 
             var message = GetTestExecutionMessage();
 
             try
             {
-                _testStateManager.SetThenState(context.Test.Name, state, message == null ? string.Empty : message.ToString());
+                _testStateManager.SetThenState(context.Test.Name, state, message?.ToString() ?? string.Empty);
             }
             catch (Exception)
             {
             }
         }
 
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void TearDown()
         {
             _testStateManager.Cleanup();

@@ -1,12 +1,14 @@
 ﻿using System;
 using Given.Common;
 using Given.Example;
+using NUnit.Framework.Internal;
+using NUnit.Framework;
 
 namespace Given.NUnit.Example
 {
     [Story(AsA = "car manufacturer",
-           IWant = "a factory that makes the right cars",
-           SoThat = "I can make money")]
+         IWant = "a factory that makes the right cars",
+         SoThat = "I can make money"), TestFixture]
     public class building_a_toyota : Scenario
     {
         static CarFactory _factory;

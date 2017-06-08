@@ -1,12 +1,13 @@
 ﻿using System;
 using Given.Common;
 using Given.Example;
+using NUnit.Framework;
 
 namespace Given.NUnit.Example
 {
     [Story(AsA = "car manufacturer",
         IWant = "a factory that makes the right cars",
-        SoThat = "I can make money")]
+        SoThat = "I can make money"),TestFixture]
     public class using_a_car_factory_to_make_a_ford : Scenario
     {
         static readonly CarFactory CarFactory = Context.Given<CarFactory>("a car factory");
